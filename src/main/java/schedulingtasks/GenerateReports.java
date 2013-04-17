@@ -1,4 +1,4 @@
-package hello;
+package schedulingtasks;
 
 import org.springframework.scheduling.annotation.Scheduled;
 

@@ -1,4 +1,4 @@
-package hello;
+package schedulingtasks;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.context.ApplicationContext;

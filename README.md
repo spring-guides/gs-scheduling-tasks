@@ -34,7 +34,7 @@ We have built a pretty simple application that lets users register new accounts 
 First, let's build a simple app. We aren't going to implement all that functionality of registering users, but instead code a relatively simple simulator.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.context.ApplicationContext;
@@ -59,7 +59,7 @@ This app creates random usernames and registers them with our `UserService` to e
 When we launch our app, it will look into `Config` to find the beans we need. In our case, we only need one: `UserService`. Let's define that configuration.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,7 +77,7 @@ public class Config {
 The last step we need to build our application is creating a `UserService` that lets us register new users.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ Okay, we can see the users being created every ten seconds. They get stored into
 It's time to add a scheduled task. In this situation, we need to iterate over each user, check the date they were added, and if it's too old, remove it from the map.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -156,7 +156,7 @@ A few things are needed to make the `@Scheduled` annotation work.
 We already have the `UserService` wired up in the code just above. Now let's update `Config` with the right settings.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -207,7 +207,7 @@ With this guide, we have so far seen how to set up a simple scheduled task based
 The code below shows an example of coding a class that would generate reports on a daily, weekly, and monthly basis.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -229,7 +229,7 @@ public class GenerateReports {
 To activate these jobs, we need to add another method to our app's `Config` class.
 
 ```java
-package hello;
+package schedulingtasks;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
