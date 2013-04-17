@@ -160,22 +160,51 @@ mvn package ; mvn exec:java
 
 With this guide, we have so far seen how to set up a simple scheduled task based on a fixed time interval. A more advanced option is to use a cron expression.
 
+The code below shows an example of coding a class that would generate reports on a daily, weekly, and monthly basis.
+
 ```java
 import org.springframework.context.*;
 
 public class GenerateReports {
-	@Scheduled()
+	@Scheduled(cron="0 5 * * *") // execute at 5:00am every day
 	public void generateDailyReport() {
 	}
 	
-	@Scheduled()
+	@Scheduled(cron="15 14 * * 1") // execute at 2:15pm every Monday
 	public void generateWeeklyReport() {
 	}
 	
-	@Scheduled()
+	@Scheduled(cron="45 9 15 * *") // execute at 9:45am on the 15th of the month
 	public void generateMonthlyReport() {
 	}
 }
 ```
 
-> It is impossible to capture every permutation of a cron expression with code samples. 
+To activate these jobs, we need to add another method to our app's Config class.
+```java
+import org.springframework.???;
+
+@Configuration
+public class Config {
+
+	@Bean
+	public UserService userService() {
+		return new UserService();
+	}
+	
+	@Bean
+	public CleanOutUnactivatedAccounts cleanoutUnactivatedAccounts() {
+		return new CleanOutUnactivatedAccounts();
+	}
+	
+	@Bean
+	public GenerateReports generateReports() {
+		return new GenerateReports();
+	}
+}
+```
+
+> It is impossible to capture every permutation of a cron expression with code samples. For more details on cron expressions, visit [cron](http://en.wikipedia.org/wiki/Cron) on wikipedia.
+
+## External Links
+* [Spring Framework 3.2.2.RELEASE official docs for scheduling tasks](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support)
