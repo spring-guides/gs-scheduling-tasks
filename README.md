@@ -140,7 +140,7 @@ public class CleanOutUnactivatedAccounts {
 }
 ```
 
-> TODO: This actually does NOT protect from ConcurrentModificationExceptions. Need to fix.
+**TODO: This actually does NOT protect from ConcurrentModificationExceptions. Need to fix.**
 
 > It's possible to iterate many different ways through a map, but using an iterator helps prevents ConcurrentModificationExceptions in the event we find an expired user that we must remove.
 
@@ -258,6 +258,7 @@ public class Config {
 
 It is impossible to demonstrate every permutation of a cron expression with code samples. Hopefully, these examples will give us a starting point. The cron syntax is shown below.
 
+**TODO: Cross check the cronExpression stuff below with [Spring Framework's cron expression](https://github.com/SpringSource/spring-framework/blob/master/spring-context/src/main/java/org/springframework/scheduling/support/CronSequenceGenerator.java)**
 ```
 cronExpression: "s m h D M W Y"
                  | | | | | | `- Year [optional]
