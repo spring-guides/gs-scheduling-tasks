@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 apply plugin: 'application'
-mainClassName = "hello.MyApplication"
+mainClassName = "schedulingtasks.MyApplication"
 
 repositories { mavenCentral() }
 
