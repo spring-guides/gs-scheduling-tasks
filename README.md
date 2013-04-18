@@ -134,7 +134,6 @@ package schedulingtasks;
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -145,20 +144,18 @@ public class CleanOutUnactivatedAccounts {
 	
 	@Scheduled(fixedRate=5000)
     public void lookForOldAccountsAndDeleteThem() {
-        System.out.println("Checking for old accounts&hellip;");
-        Iterator<Map.Entry<String, Date>> entries = userService.users.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<String, Date> entry = entries.next();
-            if (new Date().getTime() - entry.getValue().getTime() > 30000) {
-                System.out.println("User " + entry.getKey() + " is over 30 seconds old. Deleting.");
-                userService.users.remove(entry.getKey());
+        System.out.println("Checking for old accounts");
+        Iterator<String> keys = userService.users.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (new Date().getTime() - userService.users.get(key).getTime() > 30000) {
+                System.out.println("User " + key + " is over 30 seconds old. Deleting.");
+                keys.remove();
             }
         }
     }
 }
 ```
-
-**TODO: This actually does NOT protect from ConcurrentModificationExceptions. Need to fix.**
 
 > It's possible to iterate many different ways through a map, but using an iterator helps prevents ConcurrentModificationExceptions in the event we find an expired user that we must remove.
 
