@@ -2,7 +2,15 @@
 
 This guide will help walk you through the basic steps of setting up scheduled tasks.
 
+As you work through this guide, you can fill in this project with the code necessary to complete the guide. Or, if you'd prefer to see the end result, the completed project is available in a Git repository:
+
+```sh
+$ git clone git://github.com/springframework-meta/gs-scheduling-tasks.git
+```
+
 ##Prerequisites
+
+This project uses Spring's annotation-driven configuration library, Spring Context. It also needs the Apache Commons Language library.
 
 ### Maven
 ```xml
@@ -24,6 +32,8 @@ This guide will help walk you through the basic steps of setting up scheduled ta
 ```
 
 Visit either **Getting Started with Maven** or **Getting Started with Gradle** if you need more details on setting up either system to build this app.
+
+You can also get a copy of this project.
 
 ## Problem we need to solve
 
