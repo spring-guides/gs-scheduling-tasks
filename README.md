@@ -8,8 +8,8 @@ This guide will help walk you through the basic steps of setting up scheduled ta
 ```xml
 <dependency>
 	<groupId>org.springframework</groupId>
-	<artifactId>spring-context</artifactId>
-	<version>3.2.2.RELEASE</version>
+ 	<artifactId>spring-context</artifactId>
+ 	<version>3.2.2.RELEASE</version>
 </dependency>
 <dependency>
 	<groupId>commons-lang</groupId>
@@ -101,6 +101,14 @@ Now let's run our new app!
 ```
 ./gradlew run
 ```
+
+We can also run it with maven.
+
+```
+mvn compile exec:java
+```
+> With maven's exec plugin, it's important we run the compile task each time to make sure our latest changes are run.
+
 ```text
 User qiFfqGhE has just registered!
 User OCEJEqRg has just registered!
@@ -182,6 +190,11 @@ With all this in place, we can re-start our app, and watch the schedule job run.
 
 ```
 ./gradlew run
+```
+Or run the new version with maven.
+
+```
+mvn compile exec:java
 ```
 
 ```text

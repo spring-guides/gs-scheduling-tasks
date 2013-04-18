@@ -1,0 +1,25 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>springframework-meta</groupId>
+  <artifactId>gs-scheduling-tasks</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  
+  <properties>
+  	<exec.mainClass>schedulingtasks.MyApplication</exec.mainClass>
+  </properties>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-context</artifactId>
+  		<version>3.2.2.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-lang</groupId>
+  		<artifactId>commons-lang</artifactId>
+  		<version>2.6</version>
+  	</dependency>
+  </dependencies>
+  
+</project>
