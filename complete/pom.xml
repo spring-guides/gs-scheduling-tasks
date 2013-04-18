@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>springframework-meta</groupId>
-  <artifactId>gs-scheduling-tasks</artifactId>
+  <artifactId>gs-scheduling-tasks-complete</artifactId>
   <version>0.1-SNAPSHOT</version>
   
   <properties>
