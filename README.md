@@ -21,7 +21,7 @@ The sample in this Getting Started guide uses Spring's task scheduler which is f
 - 'org.springframework:spring-context:3.2.2.RELEASE'
 - 'commons-lang:commons-lang:2.6'
 
-Refer to **Getting Started with Gradle** or **Getting Started with Maven** for details on how to include these dependencies in your build.
+Refer to [Getting Started with Gradle](https://github.com/springframework-meta/gs-gradle/blob/master/README.md) or [Getting Started with Maven](https://github.com/springframework-meta/gs-maven/blob/master/README.md) for details on how to include these dependencies in your build.
 
 ## Problem we need to solve
 
