@@ -54,7 +54,7 @@ public class MyApplication {
 
 This application does two things. First, when we launch our app, it creates a Spring application context driven by our `Config` class. `Config` contains our declared beans in pure Java code. We retrieve the `UserService` bean in order to complete our second step.
 
-Next, the application goes into a loop where it creates random user names every ten seconds and registers them with our `UserService` to emulate real people registering with our app.
+Next, the application goes into a loop where it creates random user names every ten seconds and registers them with our `UserService` to emulate real people registering with our application.
 
 ## Creating a Configuration Class
 
@@ -171,7 +171,11 @@ public class CleanOutUnactivatedAccounts {
 
 The key component to making it perform scheduled tasks is the `@Scheduled` annotation applied to our method. In this code block we have it configured to run the method every five seconds, regardless of how long the method takes to run.
 
-> `@Scheduled(fixedRate=xyz)` measures the time interval by starting at the beginning of the task. `@Scheduled(fixedDelay=xyz)` measures the time interval by starting at the end of the task, making it more pragmatic for longer running jobs.
+The example above uses `fixedRate`. 
+- `@Scheduled(fixedRate=<milliseconds>)` measures the time interval by starting at the beginning of the task. 
+- `@Scheduled(fixedDelay=<milliseconds>)` measures the time interval by starting at the end of the task.
+
+Imagine the task is very long running, perhaps taking ten minutes to run. If the scheduled task was configured with a `fixedRate` of ten seconds, multiple instances would be launched and inevitably consume too many resources. But if it was configured with a `fixedDelay` of ten seconds instead, one instance would run to completion before scheduling the next task.
 
 ## Activating our Scheduled Task
 
@@ -270,7 +274,7 @@ public class GenerateReports {
 }
 ```
 
-To activate these jobs, we need to add another method to our app's `Config` class.
+To activate these jobs, we need to add another method to our application's `Config` class.
 
 ```java
 package schedulingtasks;
@@ -300,15 +304,15 @@ public class Config {
 }
 ```
 
-It is impossible to demonstrate every permutation of a cron expression with code samples. Hopefully, these examples provide a starting point. The cron syntax is shown below.
+It is impossible to demonstrate every permutation of a cron expression with code samples. Hopefully, these examples provide a starting point. Details about cron syntax are shown below.
 
-**TODO: Cross check the cronExpression stuff below with [Spring Framework's cron expression](https://github.com/SpringSource/spring-framework/blob/master/spring-context/src/main/java/org/springframework/scheduling/support/CronSequenceGenerator.java)**
+The pattern is a list of six single space-separated fields representing second, minute, hour, day, month, and weekday. Month and weekday names can be given as the first three letters of the English names.
+
 ```
-cronExpression: "s m h D M W Y"
-                 | | | | | | `- Year [optional]
-                 | | | | | `- Day of Week, 1-7 or SUN-SAT, ?
+cronExpression: "s m h D M W"
+                 | | | | | `- Day of Week, 1-7 or SUN-SAT
                  | | | | `- Month, 1-12 or JAN-DEC
-                 | | | `- Day of Month, 1-31, ?
+                 | | | `- Day of Month, 1-31
                  | | `- Hour, 0-23
                  | `- Minute, 0-59
                  `- Second, 0-59
