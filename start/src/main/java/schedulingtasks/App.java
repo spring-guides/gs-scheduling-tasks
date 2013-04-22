@@ -4,7 +4,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class MyApplication {
+public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
