@@ -1,6 +1,6 @@
 # Getting Started with Scheduling Tasks
 
-This Getting Started guide will walk you through the basic steps of setting up scheduled tasks using Spring.
+This [Getting Started guide](https://github.com/springframework-meta/gs-scheduling-tasks) will walk you through the basic steps of setting up scheduled tasks using Spring.
 
 To help you get started, we've provided an initial project structure as well as a completed project for you on GitHub.
 
@@ -8,13 +8,14 @@ To help you get started, we've provided an initial project structure as well as 
 $ git clone git://github.com/springframework-meta/gs-scheduling-tasks.git
 ```
 
-If you clone that repository, you will find one folder called **start** which contains the bare project structure where you write in the code as you walk through this guide. 
+If you clone that repository, you will find one folder called **start** which contains the basic parts of this guide setup.
 
 There is another folder called **complete** which contains all the code from this guide, ready to run.
 
-Before we can create a scheduled task, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#problem-we-need-to-solve).
+Before we can create a scheduled task, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#adding-a-scheduled-task).
 
-## Selecting Dependencies
+## Setting up a project
+### Selecting Dependencies
 
 The sample in this Getting Started guide uses Spring's task scheduler which is found in Spring Context as well as the Apache Commons Language library. Therefore, the following library dependencies are needed in the project's build configuration:
 
@@ -23,11 +24,11 @@ The sample in this Getting Started guide uses Spring's task scheduler which is f
 
 Refer to [Getting Started with Gradle](https://github.com/springframework-meta/gs-gradle/blob/master/README.md) or [Getting Started with Maven](https://github.com/springframework-meta/gs-maven/blob/master/README.md) for details on how to include these dependencies in your build.
 
-## Problem we need to solve
+### Problem we need to solve
 
 For this guide, let's imagine we have built a simple application where users register new accounts and then activate them. You have discovered that we need to poll periodically for people that registered but never activated their accounts, and delete them if they are more than two days old.
 
-## Creating an Application
+### Creating an Application
 
 First, we need to build that simple application. Instead of implementing all that functionality of registering users, let's code a simple simulator instead. We can do it by adding the following code to **MyApplication.java**.
 
@@ -56,7 +57,7 @@ This application does two things. First, when we launch our app, it creates a Sp
 
 Next, the application goes into a loop where it creates random user names every ten seconds and registers them with our `UserService` to emulate real people registering with our application.
 
-## Creating a Configuration Class
+### Creating a Configuration Class
 
 Now that we have written our base application, we need to configure the Spring application context used by `MyApplication`. Let's do that next by copying the following code into **Config.java**.
 
@@ -78,7 +79,7 @@ public class Config {
 
 The `@Configuration` annotation provides a signal to Spring that this class contains bean definitions. The `@Bean` annotation registers the returned by `userService`.
 
-## Creating a User Service
+### Creating a User Service
 
 The last step we need to build our application is creating a `UserService` that lets us register new users. We can do that by copying the following code into **UserService.java**.
 
@@ -104,7 +105,7 @@ public class UserService {
 
 Our service only has one method: `createNewUser`. It stores the new user as well as the time it was created in a local map.
 
-## Building and Running Our Application
+### Building and Running Our Application
 
 With all these parts defined, we are ready to run it!
 
@@ -135,7 +136,7 @@ Users are being created every ten seconds. They get stored into the `UserService
 
 ## Adding a Scheduled Task
 
-It's time to add a scheduled task. In the problem description, we need to poll the list of registered users and delete any that are too old. Normally, this might be over some time span of hours or even days. But for this guide, we will instead delete any users that over thirty seconds old.
+Now that we've setup our basic application, it's time to add a scheduled task. In the problem description, we need to poll the list of registered users and delete any that are too old. Normally, this might be over some time span of hours or even days. But for this guide, we will instead delete any users that over thirty seconds old.
 
 To do this, we need to iterate over each user, check the date they were added, and if it's too old, remove it from the map.
 
