@@ -15,6 +15,7 @@ There is another folder called **complete** which contains all the code from thi
 Before we can create a scheduled task, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#adding-a-scheduled-task).
 
 ## Setting up a project
+
 ### Selecting Dependencies
 
 The sample in this Getting Started guide uses Spring's task scheduler which is found in Spring Context as well as the Apache Commons Language library. Therefore, the following library dependencies are needed in the project's build configuration:
@@ -30,7 +31,7 @@ For this guide, let's imagine we have built a simple application where users reg
 
 ### Creating an Application
 
-First, we need to build that simple application. Instead of implementing all that functionality of registering users, let's code a simple simulator instead. We can do it by adding the following code to **MyApplication.java**.
+First, we need to build that simple application. Instead of implementing all that functionality of registering users, let's code a simple simulator instead. We can do it by adding the following code to **App.java**.
 
 ```java
 package schedulingtasks;
@@ -39,7 +40,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class MyApplication {
+public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
@@ -59,7 +60,7 @@ Next, the application goes into a loop where it creates random user names every 
 
 ### Creating a Configuration Class
 
-Now that we have written our base application, we need to configure the Spring application context used by `MyApplication`. Let's do that next by copying the following code into **Config.java**.
+Now that we have written our base application, we need to configure the Spring application context used by `App`. Let's do that next by copying the following code into **Config.java**.
 
 ```java
 package schedulingtasks;
