@@ -1,88 +1,142 @@
 # Getting Started with Scheduling Tasks
 
-This [Getting Started guide](https://github.com/springframework-meta/gs-scheduling-tasks) will walk you through the basic steps of setting up scheduled tasks using Spring.
+Introduction
+------------
 
-To help you get started, we've provided an initial project structure as well as a completed project for you on GitHub.
+### What You'll Build
 
-```sh
-$ git clone git://github.com/springframework-meta/gs-scheduling-tasks.git
+This guide will walk you through the steps needed to scheduled some tasks using Spring.
+
+### What You'll Need
+
+ - About 15 minutes
+ - A favorite text editor or IDE
+ - [JDK 7](http://docs.oracle.com/javase/7/docs/webnotes/install/index.html) or better
+ - Your choice of Maven (3.0+) or Gradle (1.5+)
+
+### How to Complete this Guide
+
+Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
+
+To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
+
+If you'd like to **skip the basics**, then do the following:
+
+ - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
+`git clone https://github.com/springframework-meta/gs-scheduling-tasks.git`
+ - cd into `gs-rest-service/start`
+ - jump ahead to [creating a representation class](#initial).
+
+And **when you're finished**, you can check your results against the the code in `gs-scheduling-tasks/complete`.
+
+<a name="scratch"></a>
+Setting up the project
+----------------------
+First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
+
+### Maven
+
+Create a Maven POM that looks like this:
+
+`pom.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-scheduling-tasks</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.bootstrap</groupId>
+        <artifactId>spring-bootstrap-starters</artifactId>
+        <version>0.5.0.BUILD-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.bootstrap</groupId>
+            <artifactId>spring-bootstrap-web-starter</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>commons-lang</groupId>
+        	<artifactId>commons-lang</artifactId>
+        	<version>2.6</version>
+        </dependency>
+    </dependencies>
+    
+    <!-- TODO: remove once bootstrap goes GA -->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
 ```
+TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
 
-If you clone that repository, you will find one folder called **start** which contains the basic parts of this guide setup.
+Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
-There is another folder called **complete** which contains all the code from this guide, ready to run.
+### Gradle
 
-Before we can create a scheduled task, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#adding-a-scheduled-task).
+TODO: paste complete build.gradle.
 
-## Setting up a project
+Add the following within the `dependencies { }` section of your build.gradle file:
 
-### Selecting Dependencies
-
-The sample in this Getting Started guide uses Spring's task scheduler which is found in Spring Context as well as the Apache Commons Language library. Therefore, the following library dependencies are needed in the project's build configuration:
-
-- 'org.springframework:spring-context:3.2.2.RELEASE'
-- 'commons-lang:commons-lang:2.6'
-
-Refer to [Getting Started with Gradle](https://github.com/springframework-meta/gs-gradle/blob/master/README.md) or [Getting Started with Maven](https://github.com/springframework-meta/gs-maven/blob/master/README.md) for details on how to include these dependencies in your build.
+`build.gradle`
+```groovy
+compile "org.springframework.bootstrap:spring-bootstrap-web-starter:0.0.1-SNAPSHOT"
+compile "commons-lang:commons-lang:2.6"
+```
 
 ### Problem we need to solve
 
 For this guide, let's imagine we have built a simple application where users register new accounts and then activate them. You have discovered that we need to poll periodically for people that registered but never activated their accounts, and delete them if they are more than two days old.
 
-### Creating an Application
+Creating a Configuration Class
+------------------------------
+The first step is to set up a simple Spring configuration class. It'll look like this:
 
-First, we need to build that simple application. Instead of implementing all that functionality of registering users, let's code a simple simulator instead. We can do it by adding the following code to **App.java**.
-
-```java
-package schedulingtasks;
-
-import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-public class App {
-
-	public static void main(String[] args) throws InterruptedException {
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
-		UserService userService = ctx.getBean(UserService.class);
-		while (true) {
-			userService.createNewUser(RandomStringUtils.randomAlphabetic(8));
-			Thread.sleep(10000);
-		}
-		
-	}
-}
-```
-
-This application does two things. First, when we launch our app, it creates a Spring application context driven by our `Config` class. `Config` contains our declared beans in pure Java code. We retrieve the `UserService` bean in order to complete our second step.
-
-Next, the application goes into a loop where it creates random user names every ten seconds and registers them with our `UserService` to emulate real people registering with our application.
-
-### Creating a Configuration Class
-
-Now that we have written our base application, we need to configure the Spring application context used by `App`. Let's do that next by copying the following code into **Config.java**.
+`src/main/java/schedulingtasks/ScheduledConfiguration.java`
 
 ```java
 package schedulingtasks;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Config {
-
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
+@ComponentScan
+public class SchedulerConfiguration {
+	
 }
 ```
 
-The `@Configuration` annotation provides a signal to Spring that this class contains bean definitions. The `@Bean` annotation registers the returned by `userService`.
+This class is small and lightweight, but it does many things. It is the primary means to configure all the components in our application. It uses the [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) which tells Spring to scan the `schedulingtasks` package for all the annotated component classes.
 
-### Creating a User Service
+Creating a User Registration Service
+------------------------------------
+Next, we need a service that simulates storing user data. 
 
-The last step we need to build our application is creating a `UserService` that lets us register new users. We can do that by copying the following code into **UserService.java**.
+`src/main/java/schedulingtasks/UserService.java`
 
 ```java
 package schedulingtasks;
@@ -91,6 +145,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserService {
 
 	public Map<String, Date> users = new HashMap<String, Date>();
@@ -101,45 +158,18 @@ public class UserService {
 	}
 }
 ```
-
 > It's a common Java convention to tag properties like `users` with `private` and then create getters and setters. For the sake of brevity, we are side-stepping that by simply making our in-memory datastore `public`.
 
-Our service only has one method: `createNewUser`. It stores the new user as well as the time it was created in a local map.
+<a name="initial"></a>
 
-### Building and Running Our Application
-
-With all these parts defined, we are ready to run it!
-
-```
-./gradlew run
-```
-
-We can also run it with maven.
-
-```
-mvn compile exec:java
-```
-> With maven's exec plugin, it's important to run the compile task each time to make sure it uses our latest changes.
-
-We should expect to see something like this.
-
-```text
-Apr 18, 2013 4:12:54 PM org.springframework.context.support.AbstractApplicationContext prepareRefresh
-INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@4e0c2b07: startup date [Thu Apr 18 16:12:54 CDT 2013]; root of context hierarchy
-Apr 18, 2013 4:12:55 PM org.springframework.beans.factory.support.DefaultListableBeanFactory preInstantiateSingletons
-INFO: Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@2eaafcb8: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,config,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor,userService]; root of factory hierarchy
-User AUKDJGgy has just registered!
-User sHQrJPyT has just registered!
-User HANflSdG has just registered!
-```
-
-Users are being created every ten seconds. They get stored into the `UserService` map, which in this guide, is purely in-memory and not persisted anywhere. That means that if we shutdown the application and restart it, all the data will be lost. If this was a real application, we would probably want to store that data somewhere. For now, this is good enough.
-
-## Adding a Scheduled Task
-
+Creating a Scheduled Task
+-------------------------
 Now that we've setup our basic application, it's time to add a scheduled task. In the problem description, we need to poll the list of registered users and delete any that are too old. Normally, this might be over some time span of hours or even days. But for this guide, we will instead delete any users that over thirty seconds old.
 
 To do this, we need to iterate over each user, check the date they were added, and if it's too old, remove it from the map.
+
+
+`src/main/java/schedulingtasks/CleanOutUnactivatedAccounts.java`
 
 ```java
 package schedulingtasks;
@@ -149,8 +179,11 @@ import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CleanOutUnactivatedAccounts {
+	
 	@Autowired
 	public UserService userService;
 	
@@ -171,6 +204,8 @@ public class CleanOutUnactivatedAccounts {
 
 > It's possible to iterate many different ways through a map, but `keys.remove()` prevents a `ConcurrentModificationException`.
 
+By tagging this class with `@Component`, it will be automatically picked up by `SchedulerConfiguration`.
+
 The key component to making it perform scheduled tasks is the `@Scheduled` annotation applied to our method. In this code block we have it configured to run the method every five seconds, regardless of how long the method takes to run.
 
 The example above uses `fixedRate`. 
@@ -179,148 +214,120 @@ The example above uses `fixedRate`.
 
 Imagine the task is very long running, perhaps taking ten minutes to run. If the scheduled task was configured with a `fixedRate` of ten seconds, multiple instances would be launched and inevitably consume too many resources. But if it was configured with a `fixedDelay` of ten seconds instead, one instance would run to completion before scheduling the next task.
 
-## Activating our Scheduled Task
+Creating an executable main class
+---------------------------------
 
-A few things are needed to make the `@Scheduled` annotation work. 
-* First, we ask Spring to inject a copy of our `UserService` we defined earlier using the `@Autowired` annotation.
-* Second, we need register `CleanOutUnactivatedAccounts` in Spring's application context by adding a new method to our `Config` class to create an instance of our task.
-* Finally, we need to annotate our `Config` class with `@EnableScheduling` so our application will look for scheduled tasks.
+A couple of things are needed to make the `@Scheduled` annotation work. 
 
-We already have the `UserService` wired up in the code just above. Now let's update `Config` with the right settings.
+- First, we ask Spring to inject a copy of our `UserService` we defined earlier using the `@Autowired` annotation.
+- Second, we need to annotate our `Config` class with `@EnableScheduling` so our application will look for scheduled tasks.
+
+We already have the `UserService` wired up in the code just above. Now let's update `SchedulerConfiguration` with the right settings.
+
+`src/main/java/schedulingtasks/SchedulingConfiguration.java`
 
 ```java
 package schedulingtasks;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.bootstrap.SpringApplication;
+import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableAutoConfiguration
 @EnableScheduling
-public class Config {
-	
-	@Bean
-	public UserService userService() {
-		return new UserService();
+@ComponentScan
+public class SchedulerConfiguration {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SchedulerConfiguration.class, args);
 	}
 	
-	@Bean
-	public CleanOutUnactivatedAccounts cleanoutUnactivatedAccounts() {
-		return new CleanOutUnactivatedAccounts();
-	}
 }
 ```
 
-## Running our Application with Scheduled Tasks
+`@EnableScheduling` tells Spring to look for `@Scheduled` methods and schedule them with its task executor.
 
-With all this in place, we can re-start our app, and watch the scheduled job run.
+The `@EnableAutoConfiguration` annotation has also been added: it provides a load of defaults (like looking for `CommandLineRunner`s) depending on the contents of your classpath, and other things.
 
-```
-./gradlew run
-```
-Or run the new version with maven.
+Now let's code up a new user registration simulator.
 
-```
-mvn compile exec:java
-```
-
-We should expect to see something like this.
-
-```text
-Apr 18, 2013 4:25:53 PM org.springframework.context.support.AbstractApplicationContext prepareRefresh
-INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@2d523d40: startup date [Thu Apr 18 16:25:53 CDT 2013]; root of context hierarchy
-Apr 18, 2013 4:25:54 PM org.springframework.context.support.AbstractApplicationContext$BeanPostProcessorChecker postProcessAfterInitialization
-INFO: Bean 'org.springframework.scheduling.annotation.SchedulingConfiguration' of type [class org.springframework.scheduling.annotation.SchedulingConfiguration$$EnhancerByCGLIB$$c42fb15] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-Apr 18, 2013 4:25:54 PM org.springframework.beans.factory.support.DefaultListableBeanFactory preInstantiateSingletons
-INFO: Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@5b187658: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,config,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor,org.springframework.scheduling.annotation.SchedulingConfiguration,org.springframework.context.annotation.internalScheduledAnnotationProcessor,userService,cleanoutUnactivatedAccounts]; root of factory hierarchy
-Checking for old accounts
-User IKhblLlZ has just registered!
-Checking for old accounts
-Checking for old accounts
-User REyASXAP has just registered!
-Checking for old accounts
-Checking for old accounts
-User hsDnCNtn has just registered!
-Checking for old accounts
-Checking for old accounts
-User YuKyDYTq has just registered!
-Checking for old accounts
-User IKhblLlZ is over 30 seconds old. Deleting.
-```
-
-In the text up above, we can see extra messages logged by our scheduled task. It also shows a the first user being delete after thirty seconds.
-
-## Scheduling More Complex Tasks
-
-With this guide, we have so far seen how to set up a simple scheduled task based on a fixed time interval. A more advanced option is to use a cron expression.
-
-The code below shows an example of coding a class that would generate reports on a daily, weekly, and monthly basis. We can plug it in by copying it into **GenerateReports.java**.
+`src/main/java/schedulingtasks/NewUserSimulatorApplication.java`
 
 ```java
 package schedulingtasks;
 
-import org.springframework.scheduling.annotation.Scheduled;
+import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.bootstrap.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-public class GenerateReports {
-	@Scheduled(cron="0 0 5 * * *") // execute at 5:00:00am every day
-	public void generateDailyReport() {
+@Component
+public class NewUserSimulatorApplication implements CommandLineRunner {
+
+	@Autowired
+	UserService userService;
+	
+	@Override
+	public void run(String... args) throws Exception {
+		while (true) {
+			userService.createNewUser(RandomStringUtils.randomAlphabetic(8));
+			Thread.sleep(10000);
+		}
 	}
 	
-	@Scheduled(cron="0 15 14 * * 1") // execute at 2:15:00pm every Monday
-	public void generateWeeklyReport() {
-	}
-	
-	@Scheduled(cron="0 45 9 15 * *") // execute at 9:45:00am on the 15th of the month
-	public void generateMonthlyReport() {
-	}
 }
 ```
 
-To activate these jobs, we need to add another method to our application's `Config` class.
+The `@Component` annotation allows it to be picked up automatically by Spring. By implementing the `CommandLineRunner` interface, it is automatically run by `SpringApplication.run()`.
 
-```java
-package schedulingtasks;
+Building an executable JAR
+--------------------------
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
+Add the following to your `pom.xml` file (keeping any existing properties or plugins intact):
 
-@Configuration
-@EnableScheduling
-public class Config {
-	
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
-	
-	@Bean
-	public CleanOutUnactivatedAccounts cleanoutUnactivatedAccounts() {
-		return new CleanOutUnactivatedAccounts();
-	}
-	
-	@Bean
-	public GenerateReports generateReports() {
-		return new GenerateReports();
-	}
-}
+`pom.xml`
+```xml
+<properties>
+	<start-class>schedulingtasks.SchedulerConfiguration</start-class>
+</properties>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
 ```
 
-It is impossible to demonstrate every permutation of a cron expression with code samples. Hopefully, these examples provide a starting point. Details about cron syntax are shown below.
-
-The pattern is a list of six single space-separated fields representing second, minute, hour, day, month, and weekday. Month and weekday names can be given as the first three letters of the English names.
+The following will produce a single executable JAR file containing all necessary dependency classes:
 
 ```
-cronExpression: "s m h D M W"
-                 | | | | | `- Day of Week, 1-7 or SUN-SAT
-                 | | | | `- Month, 1-12 or JAN-DEC
-                 | | | `- Day of Month, 1-31
-                 | | `- Hour, 0-23
-                 | `- Minute, 0-59
-                 `- Second, 0-59
+$ mvn package
 ```
 
-Congratulations! You have put together a handful of scheduled tasks and quickly wired them into your application. This technique works inside any type of application, web or command-line.
+Running the Service
+-------------------------------------
 
-## External Links
+Now you can run it from the jar as well, and distribute that as an executable artifact:
+
+```
+$ java -jar target/gs-scheduling-tasks-0.0.1-SNAPSHOT.jar
+
+... new users start getting created every ten seconds ...
+... after thirty seconds, old users start getting deleted ...
+
+```
+
+Congratulations! You have created an application with scheduled tasks and quickly wired them into your application. This technique works inside any type of application, web or command-line.
+
+Related Resources
+-----------------
+
 * [Spring Framework 3.2.2.RELEASE official docs for scheduling tasks](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support)
+
+[zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip

@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserService {
 
 	public Map<String, Date> users = new HashMap<String, Date>();
