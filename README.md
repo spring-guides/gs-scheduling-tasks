@@ -24,7 +24,7 @@ If you'd like to **skip the basics**, then do the following:
 
  - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
 `git clone https://github.com/springframework-meta/gs-scheduling-tasks.git`
- - cd into `gs-rest-service/start`
+ - cd into `gs-rest-service/initial`
  - jump ahead to [creating a representation class](#initial).
 
 And **when you're finished**, you can check your results against the the code in `gs-scheduling-tasks/complete`.
