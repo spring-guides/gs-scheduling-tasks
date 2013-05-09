@@ -1,4 +1,4 @@
-package schedulingtasks;
+package hello;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
