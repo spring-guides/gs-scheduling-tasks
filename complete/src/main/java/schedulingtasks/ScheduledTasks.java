@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
-public class CleanOutUnactivatedAccounts {
+public class ScheduledTasks {
 	
 	@Scheduled(fixedRate=5000)
     public void greetingsFromScheduledSpring() {
