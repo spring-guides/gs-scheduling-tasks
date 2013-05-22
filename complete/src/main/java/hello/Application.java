@@ -1,11 +1,10 @@
 package hello;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.bootstrap.SpringApplication;
 
 public class Application {
 
-	public static void main(String[] args) throws Exception {
-		new AnnotationConfigApplicationContext(ScheduledTasks.class);
-	}
-	
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(ScheduledTasks.class);
+    }
 }
