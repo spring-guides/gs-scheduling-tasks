@@ -1,42 +1,42 @@
-# Getting Started with Scheduling Tasks
+<!-- See expanded [macro:...] values at https://github.com/springframework-meta/springframework.org/tree/master/doc/gs-macros.md -->
 
-Introduction
-------------
+# Getting Started: Scheduling Tasks
 
-### What You'll Build
+What you'll build
+-----------------
 
 This guide will walk you through the steps needed to scheduled some tasks using Spring.
 
-### What You'll Need
+What you'll need
+----------------
 
  - About 15 minutes
  - A favorite text editor or IDE
- - [JDK 7](http://docs.oracle.com/javase/7/docs/webnotes/install/index.html) or better
- - Your choice of Maven (3.0+) or Gradle (1.5+)
+ - [JDK 6][jdk] or better
+ - [Maven 3.0][mvn] or later
 
-### How to Complete this Guide
-
-Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
-
-To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
-
-If you'd like to **skip the basics**, then do the following:
-
- - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
-`git clone https://github.com/springframework-meta/gs-scheduling-tasks.git`
- - cd into `gs-rest-service/initial`
- - jump ahead to [creating a representation class](#initial).
-
-And **when you're finished**, you can check your results against the the code in `gs-scheduling-tasks/complete`.
+[macro:how-to-complete-this-guide]
 
 <a name="scratch"></a>
-Setting up the project
+Set up the project
 ----------------------
-First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
 
-### Maven
+[macro:build-system-intro]
 
-Create a Maven POM that looks like this:
+Create the directory structure
+------------------------------
+
+In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
+
+    └── src
+        └── main
+            └── java
+                └── hello
+
+Create a Maven POM
+------------------
+
+[macro:maven-project-setup-options]
 
 `pom.xml`
 ```xml
@@ -47,7 +47,7 @@ Create a Maven POM that looks like this:
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-scheduling-tasks</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
@@ -84,29 +84,15 @@ Create a Maven POM that looks like this:
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 </project>
 ```
-TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
 
-Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
-
-### Gradle
-
-TODO: paste complete build.gradle.
-
-Add the following within the `dependencies { }` section of your build.gradle file:
-
-`build.gradle`
-```groovy
-compile "org.springframework.bootstrap:spring-bootstrap-starter:0.5.0.BUILD-SNAPSHOT"
-```
+[macro:bootstrap-starter-pom-disclaimer]
 
 <a name="initial"></a>
-
-Creating a Scheduled Task
+Create a scheduled task
 -------------------------
-With our build system in place, let's create a scheduled task.
+With our project set up, let's create a scheduled task.
 
 
 `src/main/java/hello/ScheduledTasks.java`
@@ -114,34 +100,29 @@ With our build system in place, let's create a scheduled task.
 ```java
 package hello;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-@Component
 @EnableScheduling
 public class ScheduledTasks {
-	
-	@Scheduled(fixedRate=5000)
-    public void greetingsFromScheduledSpring() {
-		System.out.println("Greetings from a Spring-scheduled task!");
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+    @Scheduled(fixedRate = 5000)
+    public void reportCurrentTime() {
+        System.out.println("The time is now " + dateFormat.format(new Date()));
     }
 }
 ```
 
-By tagging this class with `@Component`, it can be picked up when we create a Spring application context.
+The two key components that makes our code perform scheduled tasks are the `@EnableScheduling` and `@Scheduled` annotations. 
 
-The key component to making it perform scheduled tasks is the `@Scheduled` annotation applied to our method. In this code block we have it configured to run the method every five seconds, regardless of how long the method takes to run.
+`@EnableScheduling` ensures that a background task executor is created. Without it, nothing will get scheduled. 
 
-The example above uses `fixedRate`. 
-- `@Scheduled(fixedRate=<milliseconds>)` measures the time interval by starting at the beginning of the task. 
-- `@Scheduled(fixedDelay=<milliseconds>)` measures the time interval by starting at the end of the task.
-
-Imagine the task is very long running, perhaps taking ten minutes to run. If the scheduled task was configured with a `fixedRate` of ten seconds, multiple instances would be launched and inevitably consume too many resources. But if it was configured with a `fixedDelay` of ten seconds instead, one instance would run to completion before scheduling the next task.
-
-It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
-
-We also need `@EnableScheduling` so that our task will be added to Spring's default task executor.
+`@Scheduled` is used to configure when a particular method is run.
+- **Note:** This example uses `fixedRate`, which measures the time interval at the beginning of the task. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which measures the time interval starting at the end of the task. It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
 
 Creating an executable main class
 ---------------------------------
@@ -153,65 +134,65 @@ The only left to do is create a runnable class!
 ```java
 package hello;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.bootstrap.SpringApplication;
 
 public class Application {
 
-	public static void main(String[] args) throws Exception {
-		new AnnotationConfigApplicationContext(ScheduledTasks.class);
-	}
-	
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(ScheduledTasks.class);
+    }
 }
 ```
 
 We are creating a new Spring application context and feeding the class with our scheduled task. This will cause a task executor thread to start up and begin processing automatically scheduled tasks until we terminate the process.
 
 
-Building an executable JAR
+Build an executable JAR
 --------------------------
 
 Add the following to your `pom.xml` file (keeping any existing properties or plugins intact):
 
 `pom.xml`
 ```xml
-<properties>
-	<start-class>hello.Application</start-class>
-</properties>
+    <properties>
+        <start-class>hello.Application</start-class>
+    </properties>
 
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-        </plugin>
-    </plugins>
-</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 ```
 
-The following will produce a single executable JAR file containing all necessary dependency classes:
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
 
-```
-$ mvn package
-```
+The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 
-Running the Service
+Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
+
+    mvn package
+
+Running the service
 -------------------------------------
 
 Now you can run it from the jar as well, and distribute that as an executable artifact:
 
-```
-$ java -jar target/gs-scheduling-tasks-0.0.1-SNAPSHOT.jar
-
-... starts printing "Hello" every five seconds ...
+    java -jar target/gs-scheduling-tasks-1.0-SNAPSHOT.jar
 
 ```
+... starts printing the current time every five seconds ...
+
+```
+
+Summary
+-------
 
 Congratulations! You have created an application with scheduled tasks. Heck, the actual code was shorter than the build file! Suffice it to say, this technique works inside any type of application, web or command-line.
 
-Related Resources
------------------
-
-* [Spring Framework 3.2.2.RELEASE official docs for scheduling tasks](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support)
-* [Spring Framework's cron expression syntax parser](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html)
-
+[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
+[mvn]: http://maven.apache.org/download.cgi
