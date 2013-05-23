@@ -179,14 +179,17 @@ Now run the following to produce a single executable JAR file containing all nec
 Running the service
 -------------------------------------
 
-Now you can run it from the jar as well, and distribute that as an executable artifact:
+Run your service with `java -jar` at the command line:
 
     java -jar target/gs-scheduling-tasks-1.0-SNAPSHOT.jar
 
-```
-... starts printing the current time every five seconds ...
+Logging output is displayed and you begin seeing your scheduled task fire every 5 seconds as expected:
 
-```
+    [...]
+    The time is now 13:10:00
+    The time is now 13:10:05
+    The time is now 13:10:10
+    The time is now 13:10:15
 
 Summary
 -------
