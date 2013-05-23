@@ -122,7 +122,7 @@ The two key components that makes our code perform scheduled tasks are the `@Ena
 `@EnableScheduling` ensures that a background task executor is created. Without it, nothing will get scheduled. 
 
 `@Scheduled` is used to configure when a particular method is run.
-- **Note:** This example uses `fixedRate`, which measures the time interval at the beginning of the task. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which measures the time interval starting at the end of the task. It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
+> **Note:** This example uses `fixedRate`, which measures the time interval at the beginning of the task. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which measures the time interval starting at the end of the task. It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
 
 Creating an executable main class
 ---------------------------------
