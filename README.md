@@ -199,3 +199,4 @@ Congratulations! You have created an application with scheduled tasks. Heck, the
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
 [mvn]: http://maven.apache.org/download.cgi
+[maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
