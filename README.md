@@ -7,15 +7,15 @@ What you'll build
 
 This guide will walk you through the steps needed to scheduled some tasks using Spring.
 
+
 What you'll need
 ----------------
 
  - About 15 minutes
- - A favorite text editor or IDE
- - [JDK 6][jdk] or better
- - [Maven 3.0][mvn] or later
+ - [macro:prereq-editor-jdk-buildtools]
 
-[macro:how-to-complete-this-guide]
+## [macro:how-to-complete-this-guide]
+
 
 <a name="scratch"></a>
 Set up the project
@@ -23,18 +23,9 @@ Set up the project
 
 [macro:build-system-intro]
 
-Create the directory structure
-------------------------------
+### [macro:create-directory-structure-hello]
 
-In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
-
-    └── src
-        └── main
-            └── java
-                └── hello
-
-Create a Maven POM
-------------------
+### Create a Maven POM
 
 [macro:maven-project-setup-options]
 
@@ -124,10 +115,10 @@ The two key components that makes our code perform scheduled tasks are the `@Ena
 `@Scheduled` is used to configure when a particular method is run.
 > **Note:** This example uses `fixedRate`, which measures the time interval at the beginning of the task. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which measures the time interval starting at the end of the task. It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
 
-Creating an executable main class
----------------------------------
+Make the application executable
+-------------------------------
 
-The only left to do is create a runnable class!
+### Create a main class
 
 `src/main/java/hello/Application.java`
 
@@ -146,35 +137,8 @@ public class Application {
 
 We are creating a new Spring application context and feeding the class with our scheduled task. This will cause a task executor thread to start up and begin processing automatically scheduled tasks until we terminate the process.
 
+### [macro:build-an-executable-jar]
 
-Build an executable JAR
---------------------------
-
-Add the following to your `pom.xml` file (keeping any existing properties or plugins intact):
-
-`pom.xml`
-```xml
-    <properties>
-        <start-class>hello.Application</start-class>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-```
-
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
-
-The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
-
-Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
-
-    mvn package
 
 Running the service
 -------------------------------------
@@ -196,7 +160,4 @@ Summary
 
 Congratulations! You have created an application with scheduled tasks. Heck, the actual code was shorter than the build file! Suffice it to say, this technique works inside any type of application, web or command-line.
 
-[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
-[mvn]: http://maven.apache.org/download.cgi
-[maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
