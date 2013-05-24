@@ -118,8 +118,11 @@ You use `@Scheduled` to configure when a particular method is run.
 Make the application executable
 -------------------------------
 
+Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
+
 ### Create a main class
-Here you create a new _[Spring application context][u-application-context]_ and feed the class with your scheduled task. This action causes a task executor thread to start up and begin processing automatically scheduled tasks until you terminate the process.
+
+Here you create a new `SpringApplication` and run it with the `ScheduledTasks` you defined earlier. This action creates a task executor and allows tasks to be scheduled."
 
 
 `src/main/java/hello/Application.java`
@@ -130,7 +133,6 @@ package hello;
 import org.springframework.bootstrap.SpringApplication;
 
 public class Application {
-
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ScheduledTasks.class);
     }
@@ -158,6 +160,6 @@ Logging output is displayed. You should see your scheduled task fire every 5 sec
 Summary
 -------
 
-Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application, web and command-line.
+Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
 
 [zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
