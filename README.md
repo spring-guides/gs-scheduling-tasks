@@ -5,7 +5,7 @@
 What you'll build
 -----------------
 
-This guide will walk you through the steps needed to scheduled some tasks using Spring.
+This guide walks you through the steps for scheduling tasks with Spring.
 
 
 What you'll need
@@ -23,7 +23,7 @@ Set up the project
 
 [macro:build-system-intro]
 
-### [macro:create-directory-structure-hello]
+[macro:create-directory-structure-hello]
 
 ### Create a Maven POM
 
@@ -83,7 +83,7 @@ Set up the project
 <a name="initial"></a>
 Create a scheduled task
 -------------------------
-With our project set up, let's create a scheduled task.
+Now that you've set up your project, you can create a scheduled task.
 
 
 `src/main/java/hello/ScheduledTasks.java`
@@ -108,17 +108,22 @@ public class ScheduledTasks {
 }
 ```
 
-The two key components that makes our code perform scheduled tasks are the `@EnableScheduling` and `@Scheduled` annotations. 
+The key components that make this code perform scheduled tasks are the `@EnableScheduling` and `@Scheduled` annotations. 
 
-`@EnableScheduling` ensures that a background task executor is created. Without it, nothing will get scheduled. 
+`@EnableScheduling` ensures that a background task executor is created. Without it, nothing gets scheduled. 
 
-`@Scheduled` is used to configure when a particular method is run.
-> **Note:** This example uses `fixedRate`, which measures the time interval at the beginning of the task. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which measures the time interval starting at the end of the task. It's also possible to [schedule things using `@Scheduled(cron=". . .")` expressions](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html) for more sophisticated scheduling.
+You use `@Scheduled` to configure when a particular method is run.
+> **Note:** This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also [use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html).
 
 Make the application executable
 -------------------------------
 
+Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
+
 ### Create a main class
+
+Here you create a new `SpringApplication` and run it with the `ScheduledTasks` you defined earlier. This action creates a task executor and allows tasks to be scheduled."
+
 
 `src/main/java/hello/Application.java`
 
@@ -128,26 +133,23 @@ package hello;
 import org.springframework.bootstrap.SpringApplication;
 
 public class Application {
-
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ScheduledTasks.class);
     }
 }
 ```
 
-We are creating a new Spring application context and feeding the class with our scheduled task. This will cause a task executor thread to start up and begin processing automatically scheduled tasks until we terminate the process.
-
 ### [macro:build-an-executable-jar]
 
 
-Running the service
+Run the service
 -------------------------------------
 
 Run your service with `java -jar` at the command line:
 
     java -jar target/gs-scheduling-tasks-1.0-SNAPSHOT.jar
 
-Logging output is displayed and you begin seeing your scheduled task fire every 5 seconds as expected:
+Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 
     [...]
     The time is now 13:10:00
@@ -158,6 +160,6 @@ Logging output is displayed and you begin seeing your scheduled task fire every 
 Summary
 -------
 
-Congratulations! You have created an application with scheduled tasks. Heck, the actual code was shorter than the build file! Suffice it to say, this technique works inside any type of application, web or command-line.
+Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
 
 [zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
