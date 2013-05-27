@@ -1,5 +1,3 @@
-<!-- See expanded [macro:...] values at https://github.com/springframework-meta/springframework.org/tree/master/doc/gs-macros.md -->
-
 # Getting Started: Scheduling Tasks
 
 What you'll build
@@ -12,22 +10,22 @@ What you'll need
 ----------------
 
  - About 15 minutes
- - [macro:prereq-editor-jdk-buildtools]
+ - {!snippet:prereq-editor-jdk-buildtools}
 
-## [macro:how-to-complete-this-guide]
+## {!snippet:how-to-complete-this-guide}
 
 
 <a name="scratch"></a>
 Set up the project
 ----------------------
 
-[macro:build-system-intro]
+{!snippet:build-system-intro}
 
-[macro:create-directory-structure-hello]
+{!snippet:create-directory-structure-hello}
 
-### Create a Maven POM
+### Create a Maven pom
 
-[macro:maven-project-setup-options]
+{!snippet:maven-project-setup-options}
 
 `pom.xml`
 ```xml
@@ -78,7 +76,7 @@ Set up the project
 </project>
 ```
 
-[macro:bootstrap-starter-pom-disclaimer]
+{!snippet:bootstrap-starter-pom-disclaimer}
 
 <a name="initial"></a>
 Create a scheduled task
@@ -139,7 +137,7 @@ public class Application {
 }
 ```
 
-### [macro:build-an-executable-jar]
+### {!snippet:build-an-executable-jar}
 
 
 Run the service
