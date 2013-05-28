@@ -36,7 +36,7 @@ Set up the project
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-scheduling-tasks</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
@@ -145,7 +145,7 @@ Run the service
 
 Run your service with `java -jar` at the command line:
 
-    java -jar target/gs-scheduling-tasks-1.0-SNAPSHOT.jar
+    java -jar target/gs-scheduling-tasks-0.1.0-SNAPSHOT.jar
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 
