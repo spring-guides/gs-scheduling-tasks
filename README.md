@@ -27,54 +27,7 @@ Set up the project
 
 {!include#maven-project-setup-options}
 
-`pom.xml`
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-scheduling-tasks</artifactId>
-    <version>0.1.0</version>
-
-    <parent>
-        <groupId>org.springframework.bootstrap</groupId>
-        <artifactId>spring-bootstrap-starters</artifactId>
-        <version>0.5.0.BUILD-SNAPSHOT</version>
-    </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.bootstrap</groupId>
-            <artifactId>spring-bootstrap-starter</artifactId>
-            <version>0.5.0.BUILD-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    
-    <!-- TODO: remove once bootstrap goes GA -->
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>http://repo.springsource.org/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>http://repo.springsource.org/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-</project>
-```
+    {!include:complete/pom.xml}
 
 {!include#bootstrap-starter-pom-disclaimer}
 
@@ -84,27 +37,7 @@ Create a scheduled task
 Now that you've set up your project, you can create a scheduled task.
 
 
-`src/main/java/hello/ScheduledTasks.java`
-
-```java
-package hello;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-
-@EnableScheduling
-public class ScheduledTasks {
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-    @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
-    }
-}
-```
+    {!include:complete/src/main/java/hello/ScheduledTasks.java}
 
 The key components that make this code perform scheduled tasks are the `@EnableScheduling` and `@Scheduled` annotations. 
 
@@ -122,20 +55,7 @@ Although scheduled tasks can be embedded in web apps and WAR files, the simpler 
 
 Here you create a new `SpringApplication` and run it with the `ScheduledTasks` you defined earlier. This action creates a task executor and allows tasks to be scheduled."
 
-
-`src/main/java/hello/Application.java`
-
-```java
-package hello;
-
-import org.springframework.bootstrap.SpringApplication;
-
-public class Application {
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(ScheduledTasks.class);
-    }
-}
-```
+    {!include:complete/src/main/java/hello/Application.java}
 
 ### {!include#build-an-executable-jar}
 
