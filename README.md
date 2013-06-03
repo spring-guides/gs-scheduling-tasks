@@ -10,22 +10,22 @@ What you'll need
 ----------------
 
  - About 15 minutes
- - {!snippet:prereq-editor-jdk-buildtools}
+ - {!include#prereq-editor-jdk-buildtools}
 
-## {!snippet:how-to-complete-this-guide}
+## {!include#how-to-complete-this-guide}
 
 
 <a name="scratch"></a>
 Set up the project
 ----------------------
 
-{!snippet:build-system-intro}
+{!include#build-system-intro}
 
-{!snippet:create-directory-structure-hello}
+{!include#create-directory-structure-hello}
 
 ### Create a Maven pom
 
-{!snippet:maven-project-setup-options}
+{!include#maven-project-setup-options}
 
 `pom.xml`
 ```xml
@@ -76,7 +76,7 @@ Set up the project
 </project>
 ```
 
-{!snippet:bootstrap-starter-pom-disclaimer}
+{!include#bootstrap-starter-pom-disclaimer}
 
 <a name="initial"></a>
 Create a scheduled task
@@ -137,7 +137,7 @@ public class Application {
 }
 ```
 
-### {!snippet:build-an-executable-jar}
+### {!include#build-an-executable-jar}
 
 
 Run the service
