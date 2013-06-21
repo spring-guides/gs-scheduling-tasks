@@ -72,7 +72,6 @@ In a project directory of your choosing, create the following subdirectory struc
         <dependency>
             <groupId>org.springframework.bootstrap</groupId>
             <artifactId>spring-bootstrap-starter</artifactId>
-            <version>0.5.0.BUILD-SNAPSHOT</version>
         </dependency>
     </dependencies>
     
