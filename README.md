@@ -27,11 +27,11 @@ To **start from scratch**, move on to [Set up the project](#scratch).
 To **skip the basics**, do the following:
 
  - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
-`git clone https://github.com/springframework-meta/{@project-name}.git`
- - cd into `{@project-name}/initial`
+`git clone https://github.com/springframework-meta/gs-scheduling-tasks.git`
+ - cd into `gs-scheduling-tasks/initial`
  - Jump ahead to [Create a resource representation class](#initial).
 
-**When you're finished**, you can check your results against the code in `{@project-name}/complete`.
+**When you're finished**, you can check your results against the code in `gs-scheduling-tasks/complete`.
 
 
 <a name="scratch"></a>
@@ -116,11 +116,11 @@ TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstr
 
 Note to experienced Maven users who are unaccustomed to using an external parent project: you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
+
 <a name="initial"></a>
 Create a scheduled task
 -------------------------
 Now that you've set up your project, you can create a scheduled task.
-
 
 `src/main/java/hello/ScheduledTasks.java`
 ```java
@@ -211,15 +211,19 @@ Run the service
 
 Run your service with `java -jar` at the command line:
 
-    java -jar target/gs-scheduling-tasks-0.1.0-SNAPSHOT.jar
+```sh
+$ java -jar target/gs-scheduling-tasks-0.1.0-SNAPSHOT.jar
+```
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 
-    [...]
-    The time is now 13:10:00
-    The time is now 13:10:05
-    The time is now 13:10:10
-    The time is now 13:10:15
+```sh
+[...]
+The time is now 13:10:00
+The time is now 13:10:05
+The time is now 13:10:10
+The time is now 13:10:15
+```
 
 Summary
 -------
