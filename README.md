@@ -1,4 +1,6 @@
+
 # Getting Started: Scheduling Tasks
+
 
 What you'll build
 -----------------
@@ -17,6 +19,7 @@ What you'll need
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [mvn]: http://maven.apache.org/download.cgi
 
+
 How to complete this guide
 --------------------------
 
@@ -29,14 +32,15 @@ To **skip the basics**, do the following:
  - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
 `git clone https://github.com/springframework-meta/gs-scheduling-tasks.git`
  - cd into `gs-scheduling-tasks/initial`
- - Jump ahead to [Create a resource representation class](#initial).
+ - Jump ahead to [Create a scheduled task](#initial).
 
 **When you're finished**, you can check your results against the code in `gs-scheduling-tasks/complete`.
+[zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
 
 
 <a name="scratch"></a>
 Set up the project
-----------------------
+------------------
 
 First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md).
 
@@ -119,7 +123,7 @@ Note to experienced Maven users who are unaccustomed to using an external parent
 
 <a name="initial"></a>
 Create a scheduled task
--------------------------
+-----------------------
 Now that you've set up your project, you can create a scheduled task.
 
 `src/main/java/hello/ScheduledTasks.java`
@@ -149,6 +153,7 @@ The key components that make this code perform scheduled tasks are the `@EnableS
 
 You use `@Scheduled` to configure when a particular method is run.
 > **Note:** This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also [use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html).
+
 
 Make the application executable
 -------------------------------
@@ -207,7 +212,7 @@ Now run the following to produce a single executable JAR file containing all nec
 
 
 Run the service
--------------------------------------
+---------------
 
 Run your service with `java -jar` at the command line:
 
@@ -229,5 +234,3 @@ Summary
 -------
 
 Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
-
-[zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip

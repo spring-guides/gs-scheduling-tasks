@@ -2,6 +2,7 @@
 
 # Getting Started: Scheduling Tasks
 
+
 What you'll build
 -----------------
 
@@ -14,12 +15,13 @@ What you'll need
  - About 15 minutes
  - <@prereq_editor_jdk_buildtools/>
 
-## <@how_to_complete_this_guide/>
+
+## <@how_to_complete_this_guide jump_ahead='Create a scheduled task'/>
 
 
 <a name="scratch"></a>
 Set up the project
-----------------------
+------------------
 
 <@build_system_intro/>
 
@@ -34,7 +36,7 @@ Set up the project
 
 <a name="initial"></a>
 Create a scheduled task
--------------------------
+-----------------------
 Now that you've set up your project, you can create a scheduled task.
 
     <@snippet path="src/main/java/hello/ScheduledTasks.java" prefix="complete"/>
@@ -45,6 +47,7 @@ The key components that make this code perform scheduled tasks are the `@EnableS
 
 You use `@Scheduled` to configure when a particular method is run.
 > **Note:** This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are [other options](http://static.springsource.org/spring/docs/3.2.2.RELEASE/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled), like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also [use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html).
+
 
 Make the application executable
 -------------------------------
@@ -61,12 +64,12 @@ Here you create a new `SpringApplication` and run it with the `ScheduledTasks` y
 
 
 Run the service
--------------------------------------
+---------------
 
 Run your service with `java -jar` at the command line:
 
 ```sh
-$ java -jar target/gs-scheduling-tasks-0.1.0-SNAPSHOT.jar
+$ java -jar target/${project_id}-0.1.0-SNAPSHOT.jar
 ```
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
@@ -83,5 +86,3 @@ Summary
 -------
 
 Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
-
-[zip]: https://github.com/springframework-meta/gs-scheduling-tasks/archive/master.zip
