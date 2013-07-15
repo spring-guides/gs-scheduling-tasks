@@ -63,14 +63,7 @@ Here you create a new `SpringApplication` and run it with the `ScheduledTasks` y
 ### <@build_an_executable_jar/>
 
 
-Run the service
----------------
-
-Run your service with `java -jar` at the command line:
-
-```sh
-$ java -jar target/${project_id}-0.1.0-SNAPSHOT.jar
-```
+<@run_the_application module="service"/>
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 

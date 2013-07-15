@@ -212,13 +212,12 @@ Now run the following to produce a single executable JAR file containing all nec
 
 
 Run the service
----------------
-
+-------------------
 Run your service with `java -jar` at the command line:
 
-```sh
-$ java -jar target/gs-scheduling-tasks-0.1.0-SNAPSHOT.jar
-```
+    java -jar target/gs-scheduling-tasks-0.1.0.jar
+
+
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 
