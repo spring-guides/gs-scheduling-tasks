@@ -1,6 +1,6 @@
-### Related Resources
+## Related Resources
 
-There's more to Spring than what is presented here. You may want to continue your exploration of Spring with the following
+There's more to Spring than what is presented here. You can continue to explore Spring with the following resources.
 
 ### Getting Started Guides
 
@@ -20,7 +20,7 @@ There's more to Spring than what is presented here. You may want to continue you
 
 [tut-tbd]: /guides/tutorials/tbd
 
-### Understanding
+### Concepts and Technologies
 
 * [REST][u-rest]
 * [JSON][u-json]
