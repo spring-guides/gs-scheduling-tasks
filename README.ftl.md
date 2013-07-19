@@ -54,13 +54,15 @@ Make the application executable
 
 Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
 
-### Create a main class
+### Create an application class
 
 Here you create a new `SpringApplication` and run it with the `ScheduledTasks` you defined earlier. This action creates a task executor and allows tasks to be scheduled."
 
     <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
 
-### <@build_an_executable_jar/>
+<@build_an_executable_jar_subhead/>
+
+<@build_an_executable_jar/>
 
 
 <@run_the_application module="service"/>
