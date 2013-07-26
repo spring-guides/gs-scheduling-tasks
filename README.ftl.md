@@ -1,8 +1,5 @@
 <#assign project_id="gs-scheduling-tasks">
 
-# Getting Started: Scheduling Tasks
-
-
 What you'll build
 -----------------
 

@@ -1,7 +1,4 @@
 
-# Getting Started: Scheduling Tasks
-
-
 What you'll build
 -----------------
 
