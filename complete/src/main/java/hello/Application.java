@@ -1,6 +1,6 @@
 package hello;
 
-import org.springframework.bootstrap.SpringApplication;
+import org.springframework.boot.SpringApplication;
 
 public class Application {
 
