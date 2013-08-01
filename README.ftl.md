@@ -62,7 +62,7 @@ Here you create a new `SpringApplication` and run it with the `ScheduledTasks` y
 <@build_an_executable_jar/>
 
 
-<@run_the_application module="service"/>
+<@run_the_application_with_maven module="service"/>
 
 Logging output is displayed. You should see your scheduled task fire every 5 seconds:
 
