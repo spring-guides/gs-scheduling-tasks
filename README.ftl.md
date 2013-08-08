@@ -1,10 +1,10 @@
 <#assign project_id="gs-scheduling-tasks">
+This guide walks you through the steps for scheduling tasks with Spring.
 
 What you'll build
 -----------------
 
-This guide walks you through the steps for scheduling tasks with Spring.
-
+You'll build an application the prints out the current time every five seconds using Spring's `@Scheduled` annotation.
 
 What you'll need
 ----------------
