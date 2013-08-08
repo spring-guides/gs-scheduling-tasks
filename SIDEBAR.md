@@ -9,10 +9,10 @@ There's more to Spring than what is presented here. You can continue to explore 
 * [Integrating Data][gs-integration]
 * [Building a RESTful Web Service][gs-rest-service]
 
-[gs-relational-data-access]: /guides/gs/relational-data-access/content
-[gs-messaging-jms]: /guides/gs/messaging-jms/content
-[gs-integration]: /guides/gs/integration/content
-[gs-rest-service]: /guides/gs/rest-service/content
+[gs-relational-data-access]: /guides/gs/relational-data-access/
+[gs-messaging-jms]: /guides/gs/messaging-jms/
+[gs-integration]: /guides/gs/integration/
+[gs-rest-service]: /guides/gs/rest-service/
 
 ### Tutorials
 
