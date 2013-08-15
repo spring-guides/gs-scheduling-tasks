@@ -2,7 +2,7 @@
 
 There's more to Spring than what is presented here. You can continue to explore Spring with the following resources.
 
-### Getting Started Guides
+### Getting Started guides
 
 * [Accessing Relational Data][gs-relational-data-access]
 * [Messaging with JMS][gs-messaging-jms]
