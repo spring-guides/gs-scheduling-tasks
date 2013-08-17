@@ -1,4 +1,4 @@
-## Related Resources
+## Related resources
 
 There's more to Spring than what is presented here. You can continue to explore Spring with the following resources.
 
@@ -20,7 +20,7 @@ There's more to Spring than what is presented here. You can continue to explore 
 
 [tut-rest]: /guides/tutorials/rest
 
-### Concepts and Technologies
+### Concepts and technologies
 
 * [REST][u-rest]
 * [JSON][u-json]
