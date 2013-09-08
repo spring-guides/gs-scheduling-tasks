@@ -17,7 +17,7 @@ There's more to Spring than what is presented here. You can continue to explore 
 ### Tutorials
 
 * [Designing and Implementing RESTful Web Services with Spring][tut-rest]
-* [Designing and Implementing a Web Site with Spring][tut-web]
+* [Designing and Implementing a Web Application with Spring][tut-web]
 
 [tut-rest]: /guides/tutorials/rest
 [tut-web]: /guides/tutorials/web
