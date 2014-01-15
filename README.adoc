@@ -1,3 +1,7 @@
+---
+tags: [scheduling]
+projects: [spring-framework]
+---
 :toc:
 :icons: font
 :source-highlighter: prettify
