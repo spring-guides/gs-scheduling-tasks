@@ -3,6 +3,7 @@ tags: [scheduling]
 projects: [spring-framework]
 ---
 :toc:
+:spring_version: current
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-scheduling-tasks
@@ -55,7 +56,7 @@ The key components that make this code perform scheduled tasks are the `@EnableS
 `@EnableScheduling` ensures that a background task executor is created. Without it, nothing gets scheduled. 
 
 You use `@Scheduled` to configure when a particular method is run.
-NOTE: This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are http://docs.spring.io/spring/docs/4.0.x/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options], like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also http://docs.spring.io/spring/docs/4.0.x/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling].
+NOTE: This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are http://docs.spring.io/spring/docs/{spring_version}/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options], like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling].
 
 
 == Make the application executable
