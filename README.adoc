@@ -58,6 +58,9 @@ The key components that make this code perform scheduled tasks are the `@EnableS
 You use `@Scheduled` to configure when a particular method is run.
 NOTE: This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are http://docs.spring.io/spring/docs/{spring_version}/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options], like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling].
 
+NOTE: This app doesn't use `@EnableAutoConfiguration` like many of the other guides. That's because Spring Boot doesn't have anything to auto-configure when it comes to scheduling. But
+if you combine this guide with some of the others, don't forget to add it if needed.
+
 
 == Make the application executable
 
