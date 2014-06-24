@@ -1,12 +1,17 @@
 package hello;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @EnableScheduling
+@EnableMongoRepositories
+@EnableAutoConfiguration
 public class ScheduledTasks {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
