@@ -11,7 +11,7 @@ This guide walks you through the steps for scheduling tasks with Spring.
 
 == What you'll build
 
-You'll build an application the prints out the current time every five seconds using Spring's `@Scheduled` annotation.
+You'll build an application that prints out the current time every five seconds using Spring's `@Scheduled` annotation.
 
 == What you'll need
 
@@ -39,29 +39,29 @@ Now that you've set up your project, you can create a scheduled task.
 include::complete/src/main/java/hello/ScheduledTasks.java[]
 ----
 
-The key components that make this code perform scheduled tasks are the `@EnableScheduling` and `@Scheduled` annotations. 
-
-`@EnableScheduling` ensures that a background task executor is created. Without it, nothing gets scheduled. 
-
-You use `@Scheduled` to configure when a particular method is run.
+The `Scheduled` annotation defines when a particular method runs.
 NOTE: This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are http://docs.spring.io/spring/docs/{spring_version}/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options], like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling].
 
-NOTE: This app doesn't use `@EnableAutoConfiguration` like many of the other guides. That's because Spring Boot doesn't have anything to auto-configure when it comes to scheduling. But
-if you combine this guide with some of the others, don't forget to add it if needed.
-
-
-== Make the application executable
+== Enable Scheduling
 
 Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
-
-
-Here you create a new `SpringApplication` and run it with the `ScheduledTasks` you defined earlier. This action creates a task executor and allows tasks to be scheduled."
 
 `src/main/java/hello/Application.java`
 [source,java]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
+
+`@SpringBootApplication` is a convenience annotation that adds all of the following:
+
+- `@Configuration` tags the class as a source of bean definitions for the application context.
+- `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings. Technically, Spring Boot doesn't have anything to auto-configure when it comes to scheduling but a future version might.
+- `@ComponentScan` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `ScheduledTasks`.
+
+The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? This application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
+
+http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling-enable-annotation-support[`@EnableScheduling`] ensures that a background task executor is created. Without it, nothing gets scheduled.
+
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
