@@ -83,3 +83,6 @@ The time is now 13:10:15
 == Summary
 
 Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
