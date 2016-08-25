@@ -70,14 +70,14 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 
 
-Logging output is displayed. You should see your scheduled task fire every 5 seconds:
+Logging output is displayed and you can see from the logs that it is on a background thread. You should see your scheduled task fire every 5 seconds:
 
 ....
 [...]
-The time is now 13:10:00
-The time is now 13:10:05
-The time is now 13:10:10
-The time is now 13:10:15
+2016-08-25 13:10:00.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:00
+2016-08-25 13:10:05.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:05
+2016-08-25 13:10:10.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:10
+2016-08-25 13:10:15.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:15
 ....
 
 == Summary
