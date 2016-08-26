@@ -53,13 +53,7 @@ Although scheduled tasks can be embedded in web apps and WAR files, the simpler 
 include::complete/src/main/java/hello/Application.java[]
 ----
 
-`@SpringBootApplication` is a convenience annotation that adds all of the following:
-
-- `@Configuration` tags the class as a source of bean definitions for the application context.
-- `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings. Technically, Spring Boot doesn't have anything to auto-configure when it comes to scheduling but a future version might.
-- `@ComponentScan` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `ScheduledTasks`.
-
-The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? This application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
 
 http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling-enable-annotation-support[`@EnableScheduling`] ensures that a background task executor is created. Without it, nothing gets scheduled.
 
