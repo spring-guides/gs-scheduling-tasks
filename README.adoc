@@ -1,7 +1,3 @@
----
-tags: [scheduling]
-projects: [spring-framework]
----
 :toc:
 :spring_version: current
 :icons: font
