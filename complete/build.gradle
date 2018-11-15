@@ -28,5 +28,6 @@ targetCompatibility = 1.8
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.awaitility:awaitility:3.1.2")
 }
 
