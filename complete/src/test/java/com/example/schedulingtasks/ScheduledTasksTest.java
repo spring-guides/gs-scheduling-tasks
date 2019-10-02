@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hello;
+package com.example.schedulingtasks;
 
 import org.awaitility.Duration;
 import org.junit.Before;
