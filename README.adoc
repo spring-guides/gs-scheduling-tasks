@@ -3,76 +3,175 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-scheduling-tasks
+
 This guide walks you through the steps for scheduling tasks with Spring.
 
-== What you'll build
+== What You Will Build
 
-You'll build an application that prints out the current time every five seconds using Spring's `@Scheduled` annotation.
+You will build an application that prints out the current time every five seconds by using
+Spring's `@Scheduled` annotation.
 
-== What you'll need
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+[[scratch]]
+== Starting with Spring Initializr
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the setup for you. This example needs no Spring
+dependencies. Spring Boot itself provides all the Spring packages that you need for this
+guide. The following image shows the Initializr set up for this sample project:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+image::images/initializr.png[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `scheduling-tasks` as the
+Group and Artifact, respectively. You will use those values throughout the rest of this
+sample.
 
+The following listing shows the `pom.xml` file that is created when you choose Maven:
 
+====
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+====
+
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
+
+====
+[source,text]
+----
+include::initial/build.gradle[]
+----
+====
+
+=== Adding the `awaitility` Dependency
+
+The tests in
+`complete/src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
+require the `awaitility` library.
+
+NOTE: Later versions of the `awaitility` library do not work for this test, so you have to
+specify version 3.1.2.
+
+To add the `awaitility` library to Maven, add the following dependency:
+
+====
+[source,xml]
+----
+<dependency>
+  <groupId>org.awaitility</groupId>
+  <artifactId>awaitility</artifactId>
+  <version>3.1.2</version>
+  <scope>test</scope>
+</dependency>
+----
+====
+
+The following listing shows the finished `pom.xml` file:
+
+====
+[source,xml]
+----
+include::complete/pom.xml[]
+----
+====
+
+To add the `awaitility` library to Gradle, add the following dependency:
+
+====
+[source,text]
+----
+	testImplementation 'org.awaitility:awaitility:3.1.2'
+----
+====
+
+The following listing shows the finished `build.gradle` file:
+
+====
+[source,xml]
+----
+include::complete/build.gradle[]
+----
+====
 
 [[initial]]
-== Create a scheduled task
-Now that you've set up your project, you can create a scheduled task.
+== Create a Scheduled Task
 
-`src/main/java/hello/ScheduledTasks.java`
-[source,java,tabsize=2]
+Now that you have set up your project, you can create a scheduled task. The following
+listing (from `src/main/java/com/example/schedulingtasks/ScheduledTasks.java`) shows how
+to do so:
+
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/ScheduledTasks.java[]
+include::complete/src/main/java/com/example/schedulingtasks/ScheduledTasks.java[]
 ----
+====
 
 The `Scheduled` annotation defines when a particular method runs.
-NOTE: This example uses `fixedRate`, which specifies the interval between method invocations measured from the start time of each invocation. There are https://docs.spring.io/spring/docs/{spring_version}/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options], like `fixedDelay`, which specifies the interval between invocations measured from the completion of the task. You can also https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[use `@Scheduled(cron=". . .")` expressions for more sophisticated task scheduling].
+
+NOTE: This example uses `fixedRate`, which specifies the interval between method
+invocations, measured from the start time of each invocation. There are
+https://docs.spring.io/spring/docs/{spring_version}/spring-framework-reference/html/scheduling.html#scheduling-annotation-support-scheduled[other options],
+such as `fixedDelay`, which specifies the interval between invocations measured from the
+completion of the task. You can also use https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/scheduling/support/CronSequenceGenerator.html[`@Scheduled(cron=". . .")`]
+expressions for more sophisticated task scheduling.
 
 == Enable Scheduling
 
-Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
+Although scheduled tasks can be embedded in web applications and WAR files, the simpler
+approach (shown in in the next listing) creates a standalone application. To do so,
+package everything in a single, executable JAR file, driven by a good old Java `main()`
+method. The following listing (from
+`src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the
+application class:
 
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Application.java[]
+include::complete/src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java[]
 ----
+====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
 
-https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling-enable-annotation-support[`@EnableScheduling`] ensures that a background task executor is created. Without it, nothing gets scheduled.
-
+The
+https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling-enable-annotation-support[`@EnableScheduling`]
+annotation ensures that a background task executor is created. Without it, nothing gets
+scheduled.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
+Logging output is displayed, and you can see from the logs that it is on a background
+thread. You should see your scheduled task fire every five seconds. The following listing
+shows typical output:
 
-
-Logging output is displayed and you can see from the logs that it is on a background thread. You should see your scheduled task fire every 5 seconds:
-
-....
-[...]
-2016-08-25 13:10:00.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:00
-2016-08-25 13:10:05.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:05
-2016-08-25 13:10:10.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:10
-2016-08-25 13:10:15.143  INFO 31565 --- [pool-1-thread-1] hello.ScheduledTasks : The time is now 13:10:15
-....
+====
+[source,text]
+----
+...
+2019-10-02 12:07:35.659  INFO 28617 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 12:07:35
+2019-10-02 12:07:40.659  INFO 28617 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 12:07:40
+2019-10-02 12:07:45.659  INFO 28617 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 12:07:45
+2019-10-02 12:07:50.657  INFO 28617 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 12:07:50
+...
+----
+====
 
 == Summary
 
-Congratulations! You created an application with a scheduled task. Heck, the actual code was shorter than the build file! This technique works in any type of application.
+Congratulations! You created an application with a scheduled task. Also, this technique
+works in any type of application.
 
 == See Also
 

@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package hello;
+package com.example.schedulingtasks;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApplicationTest {
-	
-	@Autowired
-	private ScheduledTasks tasks;
+@Component
+public class ScheduledTasks {
 
-	@Test
-	public void contextLoads() {
-		// Basic integration test that shows the context starts up properly
-		assertThat(tasks).isNotNull();
+	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+	@Scheduled(fixedRate = 5000)
+	public void reportCurrentTime() {
+		log.info("The time is now {}", dateFormat.format(new Date()));
 	}
-
 }
