@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *	  https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,13 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 public class ScheduledTasksTest {
 
-    @SpyBean
-    ScheduledTasks tasks;
+	@SpyBean
+	ScheduledTasks tasks;
 
-    @Test
-    public void reportCurrentTime() {
-        await().atMost(Duration.TEN_SECONDS).untilAsserted(() -> {
-            verify(tasks, atLeast(2)).reportCurrentTime();
-        });
-    }
+	@Test
+	public void reportCurrentTime() {
+		await().atMost(Duration.TEN_SECONDS).untilAsserted(() -> {
+			verify(tasks, atLeast(2)).reportCurrentTime();
+		});
+	}
 }

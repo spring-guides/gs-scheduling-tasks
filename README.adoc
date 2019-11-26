@@ -31,7 +31,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 Now that you've set up your project, you can create a scheduled task.
 
 `src/main/java/hello/ScheduledTasks.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/ScheduledTasks.java[]
 ----
@@ -44,7 +44,7 @@ NOTE: This example uses `fixedRate`, which specifies the interval between method
 Although scheduled tasks can be embedded in web apps and WAR files, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method.
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
