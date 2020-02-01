@@ -128,7 +128,7 @@ expressions for more sophisticated task scheduling.
 == Enable Scheduling
 
 Although scheduled tasks can be embedded in web applications and WAR files, the simpler
-approach (shown in in the next listing) creates a standalone application. To do so,
+approach (shown in the next listing) creates a standalone application. To do so,
 package everything in a single, executable JAR file, driven by a good old Java `main()`
 method. The following listing (from
 `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the
