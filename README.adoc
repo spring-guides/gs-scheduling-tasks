@@ -14,9 +14,9 @@ Spring's `@Scheduled` annotation.
 == What You Need
 
 :java_version: 1.8
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
 [[scratch]]
 == Starting with Spring Initializr
@@ -144,16 +144,16 @@ include::complete/src/main/java/com/example/schedulingtasks/SchedulingTasksAppli
 ----
 ====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
 
 The
 https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling-enable-annotation-support[`@EnableScheduling`]
 annotation ensures that a background task executor is created. Without it, nothing gets
 scheduled.
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
 
 Logging output is displayed, and you can see from the logs that it is on a background
 thread. You should see your scheduled task fire every five seconds. The following listing
@@ -183,4 +183,4 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
 * https://spring.io/guides/gs/batch-processing/[Creating a Batch Service]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
