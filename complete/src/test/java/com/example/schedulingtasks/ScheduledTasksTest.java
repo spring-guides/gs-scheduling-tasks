@@ -16,7 +16,7 @@
 
 package com.example.schedulingtasks;
 
-import org.awaitility.Duration;
+import org.awaitility.Durations;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +34,7 @@ public class ScheduledTasksTest {
 
 	@Test
 	public void reportCurrentTime() {
-		await().atMost(Duration.TEN_SECONDS).untilAsserted(() -> {
+		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
 			verify(tasks, atLeast(2)).reportCurrentTime();
 		});
 	}
