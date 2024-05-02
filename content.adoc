@@ -1,0 +1,127 @@
+== Enable Scheduling
+
+Spring Initializr will add the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
+
+- `@Configuration`: Tags the class as a source of bean definitions for the application
+context.
+- `@EnableAutoConfiguration`: Spring Boot attempts to automatically configure your Spring application based on the dependencies that you have added.
+- `@ComponentScan`: Tells Spring to look for other components, configurations, and
+services. If specific packages are not defined, scanning will occur recursively beginning with the package of the class that declares the annotation.
+
+Additionally, add the `@EnableScheduling` annotation. `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication` should now be:
+
+====
+[source,java]
+----
+@SpringBootApplication
+@EnableScheduling
+public class SchedulingTasksApplication {
+----
+====
+
+== Create a Scheduled Task
+
+Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java`:
+
+====
+[source,java]
+----
+@Component
+public class ScheduledTasks {
+
+	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+	@Scheduled(fixedRate = 5000)
+	public void reportCurrentTime() {
+		log.info("The time is now {}", dateFormat.format(new Date()));
+	}
+}
+----
+====
+
+The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation] defines when a particular method runs.
+
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`], which specifies the interval between method
+invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`]. For periodic tasks, exactly one of these three options must be specified, and additionally an optional https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`]. For a one-time task, it is sufficient to just specify an initialDelay()
+
+== Running the Application
+
+You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Maven command in the project root directory:
+
+====
+----
+[source,]
+./mvnw spring-boot:run
+----
+====
+
+This will start the application and the method annotated with `@Scheduled` will begin to run indefinitely. You will see log messages similar to:
+
+====
+----
+[source,]
+20yy-mm-ddT07:23:01.665-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:01
+20yy-mm-ddT07:23:06.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:06
+20yy-mm-ddT07:23:11.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:11
+----
+====
+
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`] scheduling, so the application will run indefinitely until we interrupt the execution manually.
+
+== Testing with the `awaitility` Dependency
+
+In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library]. You need to add this dependency manually, as it is not a Spring dependency managed on start.spring.io.
+
+To add the `awaitility` library to Maven, add the following dependency:
+
+====
+[source,xml]
+----
+include::pom.xml[tag=awaitility]
+----
+====
+
+Now that the dependency is added to the project, create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
+
+====
+[source,java]
+----
+@SpringBootTest
+public class ScheduledTasksTest {
+
+	@SpyBean
+	ScheduledTasks tasks;
+
+	@Test
+	public void reportCurrentTime() {
+		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
+			verify(tasks, atLeast(2)).reportCurrentTime();
+		});
+	}
+}
+----
+====
+
+== Running the Application
+
+To package and run the application, you can package the application as an executable jar. The Maven command `./mvnw clean package` will compile the application to an executable jar. You can then run the jar with the command `target/scheduling-tasks-complete-0.0.1-SNAPSHOT.jar`
+
+Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks. With Cloud Native Buildpacks, you can create Docker compatible images that you can run anywhere. Spring Boot includes buildpack support directly for both Maven and Gradle. This means you can just type a single command and quickly get a sensible image into your locally running Docker daemon. To create a Docker image using Cloud Native Buildpacks, run the command `./mvnw spring-boot:build-image`. With a Docker environment enabled, you can execute the application with the command `docker run docker.io/library/scheduling-tasks-complete:0.0.1-SNAPSHOT`
+
+Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.introducing-graalvm-native-images[compilation to a native image], provided you have a GraalVM distribution on your machine. To create a native image, simply run `./mvnw -Pnative native:compile`. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `target/scheduling-tasks-complete`.
+
+
+== Summary
+
+Congratulations! You created an application with a scheduled task.
+
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/batch-processing/[Creating a Batch Service]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
