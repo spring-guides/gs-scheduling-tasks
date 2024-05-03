@@ -8,7 +8,7 @@ context.
 - `@ComponentScan`: Tells Spring to look for other components, configurations, and
 services. If specific packages are not defined, scanning will occur recursively beginning with the package of the class that declares the annotation.
 
-Additionally, add the `@EnableScheduling` annotation. `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication` should now be:
+Additionally, for this guide, add the `@EnableScheduling` annotation. `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication`. This annotation enables Spring's scheduled task execution capability. The class should now be:
 
 ====
 [source,java]
@@ -52,38 +52,25 @@ You should now be able to run the application by executing the main method in `S
 
 ====
 ----
-[source,]
 ./mvnw spring-boot:run
 ----
 ====
 
-This will start the application and the method annotated with `@Scheduled` will begin to run indefinitely. You will see log messages similar to:
+This will start the application and the method annotated with `@Scheduled` will execute. You will see log messages similar to:
 
 ====
 ----
-[source,]
 20yy-mm-ddT07:23:01.665-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:01
 20yy-mm-ddT07:23:06.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:06
 20yy-mm-ddT07:23:11.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:11
 ----
 ====
 
-NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`] scheduling, so the application will run indefinitely until we interrupt the execution manually.
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`] scheduling, so the application will run indefinitely until you interrupt the execution manually.
 
 == Testing with the `awaitility` Dependency
 
-In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library]. You need to add this dependency manually, as it is not a Spring dependency managed on start.spring.io.
-
-To add the `awaitility` library to Maven, add the following dependency:
-
-====
-[source,xml]
-----
-include::pom.xml[tag=awaitility]
-----
-====
-
-Now that the dependency is added to the project, create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
+In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library]. Since Spring Boot 3.2, this is a dependency that Boot manages. Create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
 
 ====
 [source,java]
