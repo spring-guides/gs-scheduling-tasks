@@ -2,28 +2,28 @@
 
 * About 15 minutes
 * A favorite text editor or IDE
-* https://www.oracle.com/java/technologies/downloads/[Java 17] or later
+* https://www.oracle.com/java/technologies/downloads/[Java 17^] or later
 
 == How to complete this guide
-Like most Spring https://spring.io/guides[Getting Started guides], you can start from scratch and complete each step or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/gs-scheduling-tasks[this repository]
+Like most Spring https://spring.io/guides[Getting Started guides^], you can start from scratch and complete each step or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/gs-scheduling-tasks[this repository^]
 
 To **see the end result**, do the following:
 
-- https://github.com/spring-guides/{project_id}/archive/main.zip[Download] and unzip the source repository for this guide, or clone it using Git:
+- https://github.com/spring-guides/{project_id}/archive/main.zip[Download^] and unzip the source repository for this guide, or clone it using Git:
 `git clone https://github.com/spring-guides/{project_id}.git`
 
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&name=scheduling-tasks&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.scheduling-tasks[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&name=scheduling-tasks&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.scheduling-tasks[pre-initialized project^] and click Generate to download a ZIP file. This project is configured to fit the examples in this guide.
 
 To manually initialize the project:
 
-. Navigate to https://start.spring.io.
+. Navigate to https://start.spring.io[https://start.spring.io^].
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java and Maven.
+. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java and Gradle.
 . Click *Generate*.
-. Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
+. Download the resulting ZIP file, which is an archive of an application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 

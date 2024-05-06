@@ -1,14 +1,6 @@
 == Enable Scheduling
 
-Spring Initializr will add the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
-
-- `@Configuration`: Tags the class as a source of bean definitions for the application
-context.
-- `@EnableAutoConfiguration`: Spring Boot attempts to automatically configure your Spring application based on the dependencies that you have added.
-- `@ComponentScan`: Tells Spring to look for other components, configurations, and
-services. If specific packages are not defined, scanning will occur recursively beginning with the package of the class that declares the annotation.
-
-Additionally, for this guide, add the `@EnableScheduling` annotation. `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication`. This annotation enables Spring's scheduled task execution capability. The class should now be:
+Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by a Java main() method. The following snippet (from `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the application class:
 
 ====
 [source,java]
@@ -18,6 +10,16 @@ Additionally, for this guide, add the `@EnableScheduling` annotation. `src/main/
 public class SchedulingTasksApplication {
 ----
 ====
+
+Spring Initializr will add the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
+
+- `@Configuration`: Tags the class as a source of bean definitions for the application
+context.
+- `@EnableAutoConfiguration`: Spring Boot attempts to automatically configure your Spring application based on the dependencies that you have added.
+- `@ComponentScan`: Tells Spring to look for other components, configurations, and
+services. If specific packages are not defined, scanning will occur recursively beginning with the package of the class that declares the annotation.
+
+Additionally, for this guide, add the `@EnableScheduling` annotation. This annotation enables Spring's scheduled task execution capability.
 
 == Create a Scheduled Task
 
@@ -41,18 +43,18 @@ public class ScheduledTasks {
 ----
 ====
 
-The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation] defines when a particular method runs.
+The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation^] defines when a particular method runs.
 
-NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`], which specifies the interval between method
-invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`]. For periodic tasks, exactly one of these three options must be specified, and additionally an optional https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`]. For a one-time task, it is sufficient to just specify an initialDelay()
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^], which specifies the interval between method
+invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`^] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`^]. For periodic tasks, exactly one of these three options must be specified, and additionally an optional https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`^]. For a one-time task, it is sufficient to just specify an initialDelay()
 
 == Running the Application
 
-You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Maven command in the project root directory:
+You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Gradle command in the project root directory:
 
 ====
 ----
-./mvnw spring-boot:run
+./gradlew bootRun
 ----
 ====
 
@@ -66,11 +68,11 @@ This will start the application and the method annotated with `@Scheduled` will 
 ----
 ====
 
-NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`] scheduling, so the application will run indefinitely until you interrupt the execution manually.
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^] scheduling, so the application will run indefinitely until you interrupt the execution manually.
 
 == Testing with the `awaitility` Dependency
 
-In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library]. Since Spring Boot 3.2, this is a dependency that Boot manages. Create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
+In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. Create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
 
 ====
 [source,java]
@@ -91,13 +93,19 @@ public class ScheduledTasksTest {
 ----
 ====
 
-== Running the Application
+This test will automatically be executed when running the task `./gradlew clean build`.
 
-To package and run the application, you can package the application as an executable jar. The Maven command `./mvnw clean package` will compile the application to an executable jar. You can then run the jar with the command `target/scheduling-tasks-complete-0.0.1-SNAPSHOT.jar`
+== Building the Application
 
-Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks. With Cloud Native Buildpacks, you can create Docker compatible images that you can run anywhere. Spring Boot includes buildpack support directly for both Maven and Gradle. This means you can just type a single command and quickly get a sensible image into your locally running Docker daemon. To create a Docker image using Cloud Native Buildpacks, run the command `./mvnw spring-boot:build-image`. With a Docker environment enabled, you can execute the application with the command `docker run docker.io/library/scheduling-tasks-complete:0.0.1-SNAPSHOT`
+To package and run the application, you can package the application as an executable jar. The Gradle command `./gradlew clean build` will compile the application to an executable jar. You can then run the jar with the command `java -jar build/libs/gs-scheduling-tasks-0.0.1-SNAPSHOT.jar`
 
-Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.introducing-graalvm-native-images[compilation to a native image], provided you have a GraalVM distribution on your machine. To create a native image, simply run `./mvnw -Pnative native:compile`. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `target/scheduling-tasks-complete`.
+Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks. With https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Cloud Native Buildpacks^], you can create Docker compatible images that you can run anywhere. Spring Boot includes buildpack support directly for both Maven and Gradle. This means you can type a single command and quickly get a sensible image into a locally running Docker daemon. To create a Docker image using Cloud Native Buildpacks, run the command `./gradlew bootBuildImage`. With a Docker environment enabled, you can execute the application with the command `docker run docker.io/library/scheduling-tasks-complete:0.0.1-SNAPSHOT`
+
+=== Native Image Support
+
+Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.introducing-graalvm-native-images[compilation to a native image^], provided you have a GraalVM distribution on your machine. To create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools.gradle[native image with Gradle^] using Native Build Tools, first make sure that your Gradle build contains a `plugins` block that includes `org.graalvm.buildtools.native`. You can then run the command `./gradlew nativeCompile` to generate a native image. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `build/native/nativeCompile/gs-scheduling-tasks`.
+
+You can also create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Native Image using Buildpacks^]. Provided that the Gradle `plugins` block contains `org.graalvm.buildtools.native`, you can generate a native image by running the task `./gradlew bootBuildImage`. Once the build completes, you can start your application with the command `docker run docker.io/library/gs-scheduling-tasks:0.0.1-SNAPSHOT`
 
 
 == Summary
@@ -108,7 +116,7 @@ Congratulations! You created an application with a scheduled task.
 
 The following guides may also be helpful:
 
-* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
-* https://spring.io/guides/gs/batch-processing/[Creating a Batch Service]
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot^]
+* https://spring.io/guides/gs/batch-processing/[Creating a Batch Service^]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
