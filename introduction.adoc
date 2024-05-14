@@ -1,7 +1,0 @@
-This guide walks you through the steps for scheduling tasks with Spring.
-
-== What You Will Build
-
-You will build an application that prints out the current time every five seconds by using
-Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html[`@Scheduled`^] annotation.
-
