@@ -3,6 +3,9 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-scheduling-tasks
+:build_name: gs-scheduling-tasks
+:build_version: 0.0.1-SNAPSHOT
+:build_system: gradle
 
 This guide walks you through the steps for scheduling tasks with Spring.
 
@@ -141,17 +144,7 @@ public class ScheduledTasksTest {
 
 This test will automatically be executed when running the task `./gradlew clean build`.
 
-== Building the Application
-
-To package and run the application, you can package the application as an executable jar. The Gradle command `./gradlew clean build` will compile the application to an executable jar. You can then run the jar with the command `java -jar build/libs/gs-scheduling-tasks-0.0.1-SNAPSHOT.jar`
-
-Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks. With https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Cloud Native Buildpacks^], you can create Docker compatible images that you can run anywhere. Spring Boot includes buildpack support directly for both Maven and Gradle. This means you can type a single command and quickly get a sensible image into a locally running Docker daemon. To create a Docker image using Cloud Native Buildpacks, run the command `./gradlew bootBuildImage`. With a Docker environment enabled, you can execute the application with the command `docker run docker.io/library/scheduling-tasks-complete:0.0.1-SNAPSHOT`
-
-=== Native Image Support
-
-Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.introducing-graalvm-native-images[compilation to a native image^], provided you have a GraalVM distribution on your machine. To create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools.gradle[native image with Gradle^] using Native Build Tools, first make sure that your Gradle build contains a `plugins` block that includes `org.graalvm.buildtools.native`. You can then run the command `./gradlew nativeCompile` to generate a native image. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `build/native/nativeCompile/gs-scheduling-tasks`.
-
-You can also create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Native Image using Buildpacks^]. Provided that the Gradle `plugins` block contains `org.graalvm.buildtools.native`, you can generate a native image by running the task `./gradlew bootBuildImage`. Once the build completes, you can start your application with the command `docker run docker.io/library/gs-scheduling-tasks:0.0.1-SNAPSHOT`
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_and_execute_guide.adoc[]
 
 
 == Summary
