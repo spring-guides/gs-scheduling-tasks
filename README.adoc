@@ -66,19 +66,19 @@ public class SchedulingTasksApplication {
 ----
 ====
 
-Spring Initializr will add the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
+Spring Initializr adds the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
 
 - `@Configuration`: Tags the class as a source of bean definitions for the application
 context.
 - `@EnableAutoConfiguration`: Spring Boot attempts to automatically configure your Spring application based on the dependencies that you have added.
 - `@ComponentScan`: Tells Spring to look for other components, configurations, and
-services. If specific packages are not defined, scanning will occur recursively beginning with the package of the class that declares the annotation.
+services. If specific packages are not defined, recursive scanning begins with the package of the class that declares the annotation.
 
-Additionally, for this guide, add the `@EnableScheduling` annotation. This annotation enables Spring's scheduled task execution capability.
+Additionally, add the `@EnableScheduling` annotation. This annotation enables Spring's scheduled task execution capability.
 
 == Create a Scheduled Task
 
-Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java`:
+Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java` called:
 
 ====
 [source,java]
@@ -101,7 +101,7 @@ public class ScheduledTasks {
 The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation^] defines when a particular method runs.
 
 NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^], which specifies the interval between method
-invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`^] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`^]. For periodic tasks, exactly one of these three options must be specified, and additionally an optional https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`^]. For a one-time task, it is sufficient to just specify an initialDelay()
+invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`^] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`^]. For periodic tasks, exactly one of these three options must be specified, and optionally, https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`^]. For a one-time task, it is sufficient to just specify an initialDelay()
 
 == Running the Application
 
@@ -113,7 +113,7 @@ You should now be able to run the application by executing the main method in `S
 ----
 ====
 
-This will start the application and the method annotated with `@Scheduled` will execute. You will see log messages similar to:
+Doing so starts the application, and the method annotated with @Scheduled runs. You should see log messages similar to:
 
 ====
 ----
@@ -123,11 +123,11 @@ This will start the application and the method annotated with `@Scheduled` will 
 ----
 ====
 
-NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^] scheduling, so the application will run indefinitely until you interrupt the execution manually.
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^] scheduling, so the application runs indefinitely until you interrupt it manually.
 
-== Testing with the `awaitility` Dependency
+== Testing with the awaitility Dependency
 
-In order to properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. Create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`
+To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`:
 
 ====
 [source,java]
@@ -148,7 +148,7 @@ public class ScheduledTasksTest {
 ----
 ====
 
-This test will automatically be executed when running the task `./gradlew clean build`.
+This test automatically runs when you run the `./gradlew clean build` task.
 
 // required: {build_system} maven|gradle, {build_name}, {build_version}
 // optional: {network_container}, {custom_hint_include_file}
