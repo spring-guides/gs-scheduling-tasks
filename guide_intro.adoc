@@ -1,0 +1,15 @@
+== What You Need
+
+* About 15 minutes
+* A favorite text editor or IDE
+* https://www.oracle.com/java/technologies/downloads/[Java {java_version}^] or later
+
+== How to complete this guide
+Like most Spring https://spring.io/guides[Getting Started guides^], you can start from scratch and complete each step, or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/{project_id}[this repository^].
+
+To **see the end result in your local environment**, you can do one of the following:
+
+- https://github.com/spring-guides/{project_id}/archive/main.zip[Download^] and unzip the source repository for this guide
+- Clone the repository using Git:
+`git clone https://github.com/spring-guides/{project_id}.git`
+- Fork the repository which will allow you to request changes to this guide through submission of a pull request

@@ -6,6 +6,9 @@
 :build_name: gs-scheduling-tasks
 :build_version: 0.0.1-SNAPSHOT
 :build_system: gradle
+:java_version: 17
+:spring_academy_available: n
+:spring_academy_url:
 
 This guide walks you through the steps for scheduling tasks with Spring.
 
@@ -14,20 +17,23 @@ This guide walks you through the steps for scheduling tasks with Spring.
 You will build an application that prints out the current time every five seconds by using
 Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html[`@Scheduled`^] annotation.
 
-ifndef::env-exclude-spring-initializr[]
-== What You Need
+// rendered if building for Spring Academy
+ifdef::env-build-for-spring-academy[]
+// required: {project_id}
+include::spring_academy_intro.adoc[]
+endif::[]
 
-* About 15 minutes
-* A favorite text editor or IDE
-* https://www.oracle.com/java/technologies/downloads/[Java 17^] or later
+// rendered if building for spring.io
+ifndef::env-build-for-spring-academy[]
 
-== How to complete this guide
-Like most Spring https://spring.io/guides[Getting Started guides^], you can start from scratch and complete each step or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/gs-scheduling-tasks[this repository^]
+//rendered if also available on Spring Academy
+ifeval::["{spring_academy_available}" == "y"]
+// required: {spring_academy_url}
+include::spring_academy_see_also.adoc[]
+endif::[]
 
-To **see the end result**, do the following:
-
-- https://github.com/spring-guides/{project_id}/archive/main.zip[Download^] and unzip the source repository for this guide, or clone it using Git:
-`git clone https://github.com/spring-guides/{project_id}.git`
+// required: {java_version}, {project_id}
+include::guide_intro.adoc[]
 
 [[scratch]]
 == Starting with Spring Initializr
@@ -44,8 +50,8 @@ This service pulls in all the dependencies you need for an application and does 
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor. Creating a fork will allow you request changes to this guide through submission of a pull request.
 endif::[]
+// end render if building for spring.io
 
 == Enable Scheduling
 
@@ -144,8 +150,9 @@ public class ScheduledTasksTest {
 
 This test will automatically be executed when running the task `./gradlew clean build`.
 
+// required: {build_system} maven|gradle, {build_name}, {build_version}
+// optional: {network_container}, {custom_hint_include_file}
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_and_execute_guide.adoc[]
-
 
 == Summary
 

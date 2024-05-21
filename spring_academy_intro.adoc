@@ -1,0 +1,2 @@
+The source code for this guide can be found in https://github.com/spring-guides/{project_id}[this repository^].
+If you would like a local copy of the code you can download it there.
