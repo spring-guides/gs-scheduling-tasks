@@ -11,7 +11,7 @@ jobs:
         run: sudo gem install asciidoctor-reducer
       - name: Reduce README
         # to preserve preprocessor conditionals, add the --preserve-conditionals option
-        run: asciidoctor-reducer -a env-build-for-spring-academy -o README-reduced.adoc README.adoc
+        run: asciidoctor-reducer -a env-build-for-spring-academy -a allow-uri-read -o README-reduced.adoc README.adoc
       - name: Commit and Push README
         uses: EndBug/add-and-commit@v9
         with:
