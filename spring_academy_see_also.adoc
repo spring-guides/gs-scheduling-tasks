@@ -1,0 +1,7 @@
+== Spring Academy
+
+This guide is also available on {spring_academy_url}[Spring Academy^] so you can start writing code in a matter of minutes.
+Launching this guide in Spring Academy will load an IDE (VScode) in your browser.
+You can follow along with the guide, write code, and run your application all without making any changes to your local machine.
+
+If you choose not to use Spring Academy, continue to follow the guide below to use your local machine for development.
