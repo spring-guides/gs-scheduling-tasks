@@ -18,19 +18,10 @@ You will build an application that prints out the current time every five second
 Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html[`@Scheduled`^] annotation.
 
 // rendered if building for Spring Academy
-ifdef::env-build-for-spring-academy[]
-// required: {project_id}
-include::spring_academy_intro.adoc[]
-endif::[]
 
 // rendered if building for spring.io
-ifndef::env-build-for-spring-academy[]
 
 //rendered if also available on Spring Academy
-ifeval::["{spring_academy_available}" == "y"]
-// required: {spring_academy_url}
-include::spring_academy_see_also.adoc[]
-endif::[]
 
 // required: {java_version}, {project_id}
 == What You Need
@@ -64,7 +55,6 @@ This service pulls in all the dependencies you need for an application and does 
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-endif::[]
 // end render if building for spring.io
 
 == Enable Scheduling
