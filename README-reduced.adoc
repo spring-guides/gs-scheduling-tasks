@@ -18,43 +18,11 @@ You will build an application that prints out the current time every five second
 Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html[`@Scheduled`^] annotation.
 
 // rendered if building for Spring Academy
+// required: {project_id}
+The source code for this guide can be found in https://github.com/spring-guides/{project_id}[this repository^].
+If you would like a local copy of the code you can download it there.
 
 // rendered if building for spring.io
-
-//rendered if also available on Spring Academy
-
-// required: {java_version}, {project_id}
-== What You Need
-
-* About 15 minutes
-* A favorite text editor or IDE
-* https://www.oracle.com/java/technologies/downloads/[Java {java_version}^] or later
-
-== How to Complete This Guide
-Like most Spring https://spring.io/guides[Getting Started guides^] you can start from scratch and complete each step, or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/{project_id}[this repository^].
-
-To **see the end result in your local environment**, you can do one of the following:
-
-- https://github.com/spring-guides/{project_id}/archive/main.zip[Download^] and unzip the source repository for this guide
-- Clone the repository using Git:
-`git clone https://github.com/spring-guides/{project_id}.git`
-- Fork the repository which let you request changes to this guide through submission of a pull request
-
-[[scratch]]
-== Starting with Spring Initializr
-
-You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&name=scheduling-tasks&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.scheduling-tasks[pre-initialized project^] and click Generate to download a ZIP file. This project is configured to fit the examples in this guide.
-
-To manually initialize the project:
-
-. Navigate to https://start.spring.io[https://start.spring.io^].
-This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java and Gradle.
-. Click *Generate*.
-. Download the resulting ZIP file, which is an archive of an application that is configured with your choices.
-
-NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
-
 // end render if building for spring.io
 
 == Enable Scheduling
