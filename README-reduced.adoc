@@ -1,0 +1,182 @@
+:toc:
+:spring_version: current
+:icons: font
+:source-highlighter: prettify
+:project_id: gs-scheduling-tasks
+:build_name: gs-scheduling-tasks
+:build_version: 0.0.1-SNAPSHOT
+:build_system: gradle
+:java_version: 17
+:spring_academy_available: n
+:spring_academy_url:
+
+This guide walks you through the steps for scheduling tasks with Spring.
+
+== What You Will Build
+
+You will build an application that prints out the current time every five seconds by using
+Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html[`@Scheduled`^] annotation.
+
+// rendered if building for Spring Academy
+ifdef::env-build-for-spring-academy[]
+// required: {project_id}
+include::spring_academy_intro.adoc[]
+endif::[]
+
+// rendered if building for spring.io
+ifndef::env-build-for-spring-academy[]
+
+//rendered if also available on Spring Academy
+ifeval::["{spring_academy_available}" == "y"]
+// required: {spring_academy_url}
+include::spring_academy_see_also.adoc[]
+endif::[]
+
+// required: {java_version}, {project_id}
+== What You Need
+
+* About 15 minutes
+* A favorite text editor or IDE
+* https://www.oracle.com/java/technologies/downloads/[Java {java_version}^] or later
+
+== How to Complete This Guide
+Like most Spring https://spring.io/guides[Getting Started guides^] you can start from scratch and complete each step, or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/{project_id}[this repository^].
+
+To **see the end result in your local environment**, you can do one of the following:
+
+- https://github.com/spring-guides/{project_id}/archive/main.zip[Download^] and unzip the source repository for this guide
+- Clone the repository using Git:
+`git clone https://github.com/spring-guides/{project_id}.git`
+- Fork the repository which let you request changes to this guide through submission of a pull request
+
+[[scratch]]
+== Starting with Spring Initializr
+
+You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&name=scheduling-tasks&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.scheduling-tasks[pre-initialized project^] and click Generate to download a ZIP file. This project is configured to fit the examples in this guide.
+
+To manually initialize the project:
+
+. Navigate to https://start.spring.io[https://start.spring.io^].
+This service pulls in all the dependencies you need for an application and does most of the setup for you.
+. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java and Gradle.
+. Click *Generate*.
+. Download the resulting ZIP file, which is an archive of an application that is configured with your choices.
+
+NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
+
+endif::[]
+// end render if building for spring.io
+
+== Enable Scheduling
+
+Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by a Java main() method. The following snippet (from `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the application class:
+
+====
+[source,java]
+----
+@SpringBootApplication
+@EnableScheduling
+public class SchedulingTasksApplication {
+----
+====
+
+Spring Initializr adds the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
+
+- `@Configuration`: Tags the class as a source of bean definitions for the application
+context.
+- `@EnableAutoConfiguration`: Spring Boot attempts to automatically configure your Spring application based on the dependencies that you have added.
+- `@ComponentScan`: Tells Spring to look for other components, configurations, and
+services. If specific packages are not defined, recursive scanning begins with the package of the class that declares the annotation.
+
+Additionally, add the `@EnableScheduling` annotation. This annotation enables Spring's scheduled task execution capability.
+
+== Create a Scheduled Task
+
+Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java` called:
+
+====
+[source,java]
+----
+@Component
+public class ScheduledTasks {
+
+	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+	@Scheduled(fixedRate = 5000)
+	public void reportCurrentTime() {
+		log.info("The time is now {}", dateFormat.format(new Date()));
+	}
+}
+----
+====
+
+The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation^] defines when a particular method runs.
+
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^], which specifies the interval between method
+invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`^] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`^]. For periodic tasks, exactly one of these three options must be specified, and optionally, https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`^]. For a one-time task, it is sufficient to just specify an initialDelay()
+
+== Running the Application
+
+You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Gradle command in the project root directory:
+
+====
+----
+./gradlew bootRun
+----
+====
+
+Doing so starts the application, and the method annotated with @Scheduled runs. You should see log messages similar to:
+
+====
+----
+20yy-mm-ddT07:23:01.665-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:01
+20yy-mm-ddT07:23:06.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:06
+20yy-mm-ddT07:23:11.663-04:00  INFO 19633 --- [   scheduling-1] c.e.schedulingtasks.ScheduledTasks       : The time is now 07:23:11
+----
+====
+
+NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^] scheduling, so the application runs indefinitely until you interrupt it manually.
+
+== Testing with the awaitility Dependency
+
+To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`:
+
+====
+[source,java]
+----
+@SpringBootTest
+public class ScheduledTasksTest {
+
+	@SpyBean
+	ScheduledTasks tasks;
+
+	@Test
+	public void reportCurrentTime() {
+		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
+			verify(tasks, atLeast(2)).reportCurrentTime();
+		});
+	}
+}
+----
+====
+
+This test automatically runs when you run the `./gradlew clean build` task.
+
+// required: {build_system} maven|gradle, {build_name}, {build_version}
+// optional: {network_container}, {custom_hint_include_file}
+link:https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_and_execute_guide.adoc[role=include]
+
+== Summary
+
+Congratulations! You created an application with a scheduled task.
+
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot^]
+* https://spring.io/guides/gs/batch-processing/[Creating a Batch Service^]
+
+link:https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[role=include]
