@@ -124,7 +124,74 @@ This test automatically runs when you run the `./gradlew clean build` task.
 
 // required: {build_system} maven|gradle, {build_name}, {build_version}
 // optional: {network_container}, {custom_hint_include_file}
-link:https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_and_execute_guide.adoc[role=include]
+// required variables:
+// build_system - maven or gradle
+// build_name
+// build_version
+
+// optional variables:
+// network_container - if the generated Docker container needs to run on the same network as an external dependency, this is the name of that container dependency
+// custom_hint_include_file - if the native compilation section needs additional description in the form of a custom hint, this is the file that should be rendered as additional content
+
+
+// jar
+:jar_build_command: ./gradlew clean build
+:jar_run_command: java -jar build/libs/{build_name}-{build_version}.jar
+
+// docker container
+:image_build_command: ./gradlew bootBuildImage
+:image_run_command: docker run docker.io/library/{build_name}:{build_version}
+
+// native
+:native_build_command: ./gradlew nativeCompile
+:native_run_command: build/native/nativeCompile/{build_name}
+
+// native docker container
+:native_image_build_command: ./gradlew bootBuildImage
+:native_image_run_command: docker run docker.io/library/{build_name}:{build_version}
+
+
+
+== Building the Application
+
+In this section, we will describe four different ways to run this guide:
+
+1. https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems[Building and executing a JAR file]
+2. https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Building and executing a Docker container, using Cloud Native Buildpacks^]
+3. https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools[Building and executing a native image^]
+4. https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Building and executing a native image container, using Cloud Native Buildpacks^]
+
+Regardless of how you choose to execute the application, the output should be the same.
+
+To run the application, you can package the application as an executable jar.
+The command `{jar_build_command}` will compile the application to an executable jar.
+You can then run the jar with the command `{jar_run_command}`
+
+Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks.
+With https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Cloud Native Buildpacks^], you can create Docker compatible images that you can run anywhere.
+Spring Boot includes buildpack support directly for both Maven and Gradle.
+This means you can type a single command and quickly get a sensible image into a locally running Docker daemon.
+To create a Docker image using Cloud Native Buildpacks, run the command `{image_build_command}`.
+With a Docker environment enabled, you can execute the application with the command `{image_run_command}`
+
+
+=== Native Image Support
+
+Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.introducing-graalvm-native-images[compilation to a native image^], provided you have a GraalVM distribution on your machine.
+To create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools.gradle[native image with Gradle^] using Native Build Tools, first make sure that your Gradle build contains a `plugins` block that includes `org.graalvm.buildtools.native`.
+----
+plugins {
+	id 'org.graalvm.buildtools.native' version '0.9.28'
+...
+----
+
+
+You can run the command `{native_build_command}` to generate a native image. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `{native_run_command}`.
+
+
+You can also create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Native Image using Buildpacks^]. You can generate a native image by running the command `{native_image_build_command}`. Once the build completes, you can start your application with the command `{native_image_run_command}`
+
+
 
 == Summary
 
@@ -137,4 +204,7 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot^]
 * https://spring.io/guides/gs/batch-processing/[Creating a Batch Service^]
 
-link:https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[role=include]
+
+Want to write a new guide or contribute to an existing one? Check out our https://github.com/spring-guides/getting-started-guides/wiki[contribution guidelines].
+
+IMPORTANT: All guides are released with an ASLv2 license for the code, and an http://creativecommons.org/licenses/by-nd/3.0/[Attribution, NoDerivatives creative commons license] for the writing.
