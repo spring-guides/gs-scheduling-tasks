@@ -42,8 +42,9 @@ public class ScheduledTasks {
 
 	@Scheduled(fixedRateString = "${my.app.time.report.cycle:8000}", initialDelayString = "${my.app.time.report.delay:0}")
 	public void reportCurrentTimeParametered() {
-		if (!skipReportTime) {
-			log.info("[parametered] The time is now {}", dateFormat.format(new Date()));
+		if (skipReportTime) {
+			return;
 		}
+		log.info("[parametered] The time is now {}", dateFormat.format(new Date()));
 	}
 }
