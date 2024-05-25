@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -34,5 +35,15 @@ public class ScheduledTasks {
 	@Scheduled(fixedRate = 5000)
 	public void reportCurrentTime() {
 		log.info("The time is now {}", dateFormat.format(new Date()));
+	}
+
+	@Value("${my.app.time.report.skip:false}")
+	private boolean skipReportTime = false;
+
+	@Scheduled(fixedRateString = "${my.app.time.report.cycle:8000}", initialDelayString = "${my.app.time.report.delay:0}")
+	public void reportCurrentTimeParametered() {
+		if (!skipReportTime) {
+			log.info("[parametered] The time is now {}", dateFormat.format(new Date()));
+		}
 	}
 }
