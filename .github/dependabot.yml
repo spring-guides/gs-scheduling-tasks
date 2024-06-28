@@ -1,0 +1,15 @@
+version: 2
+updates:
+
+  - package-ecosystem: "gradle"
+    directory: "/" 
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+    groups:
+      guide-dependencies-gradle:
+        patterns:
+          - "*"
