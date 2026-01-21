@@ -1,0 +1,7 @@
+my:
+   app:
+      time:
+         report:
+            cycle: 3000
+            delay: 1000
+#            skip: true
