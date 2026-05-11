@@ -16,17 +16,18 @@
 
 package com.example.schedulingtasks;
 
-import org.awaitility.Durations;
-import org.junit.jupiter.api.Test;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-
 import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
+import org.awaitility.Durations;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.ActiveProfiles;
+
 @SpringBootTest
+@ActiveProfiles("config")
 public class ScheduledTasksTest {
 
 	@SpyBean
@@ -36,6 +37,13 @@ public class ScheduledTasksTest {
 	public void reportCurrentTime() {
 		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
 			verify(tasks, atLeast(2)).reportCurrentTime();
+		});
+	}
+
+	@Test
+	public void reportCurrentTimeParametered() {
+		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
+			verify(tasks, atLeast(2)).reportCurrentTimeParametered();
 		});
 	}
 }
