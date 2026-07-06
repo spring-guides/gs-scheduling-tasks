@@ -103,6 +103,8 @@ The https://docs.spring.io/spring-framework/reference/integration/scheduling.htm
 NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedRate()[`fixedRate()`^], which specifies the interval between method
 invocations, measured from the start time of each invocation. Other options are https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron()[`cron()`^] and https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#fixedDelay()[`fixedDelay()`^]. For periodic tasks, exactly one of these three options must be specified, and optionally, https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#initialDelay()[`initialDelay()`^]. For a one-time task, it is sufficient to just specify an initialDelay()
 
+NOTE: This guide runs the scheduled task in a single application instance. If you run more than one instance (for example, when scaling out on a cloud platform), the annotated method runs independently on each instance. When a task must run only once across the whole cluster, coordinate the instances with a distributed lock, such as the community https://github.com/lukas-krecan/ShedLock[ShedLock^] library, or delegate scheduling to an external scheduler.
+
 == Running the Application
 
 You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Gradle command in the project root directory:
