@@ -2,7 +2,7 @@
 
 * About 15 minutes
 * A favorite text editor or IDE
-* https://www.oracle.com/java/technologies/downloads/[Java {java_version}^] or https://kotlinlang.org/docs/getting-started.html[Kotlin 2.3.21^] or later
+* https://www.oracle.com/java/technologies/downloads/[Java {java_version}^] or later
 
 == How to Complete This Guide
 Like most Spring https://spring.io/guides[Getting Started guides^] you can start from scratch and complete each step, or you can jump straight to the solution, by viewing the code in https://github.com/spring-guides/{project_id}[this repository^].
