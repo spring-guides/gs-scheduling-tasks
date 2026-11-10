@@ -9,6 +9,7 @@ bin
 target
 build/
 .gradle
+.kotlin
 
 # Eclipse Project Files #
 

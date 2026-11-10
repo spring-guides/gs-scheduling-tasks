@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+// tag::scheduled-tasks[]
 package com.example.schedulingtasks;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +30,11 @@ public class ScheduledTasks {
 
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 	@Scheduled(fixedRate = 5000)
 	public void reportCurrentTime() {
-		log.info("The time is now {}", dateFormat.format(new Date()));
+		log.info("The time is now {}", timeFormatter.format(LocalTime.now()));
 	}
 }
+// end::scheduled-tasks[]

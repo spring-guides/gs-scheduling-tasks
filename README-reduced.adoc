@@ -20,23 +20,25 @@ Spring Framework's https://docs.spring.io/spring-framework/docs/current/javadoc-
 // rendered if building for Spring Academy
 // required: {project_id}
 The source code for this guide can be found in https://github.com/spring-guides/{project_id}[this repository^].
-If you would like a local copy of the code you can download it there.
+If you would like a local copy of the code, you can download it there.
 
 // rendered if building for spring.io
 // end render if building for spring.io
 
 == Enable Scheduling
 
-Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by a Java main() method. The following snippet (from `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the application class:
+Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by the main() method. The following snippet shows the `SchedulingTasksApplication` application class:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@SpringBootApplication
-@EnableScheduling
-public class SchedulingTasksApplication {
+include::src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/schedulingtasks/SchedulingTasksApplication.kt[]
+----
 
 Spring Initializr adds the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
 
@@ -50,25 +52,18 @@ Additionally, add the `@EnableScheduling` annotation. This annotation enables Sp
 
 == Create a Scheduled Task
 
-Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java` called:
+Create a new class called `ScheduledTasks`:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@Component
-public class ScheduledTasks {
-
-	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
-
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-	@Scheduled(fixedRate = 5000)
-	public void reportCurrentTime() {
-		log.info("The time is now {}", dateFormat.format(new Date()));
-	}
-}
+include::src/main/java/com/example/schedulingtasks/ScheduledTasks.java[tags=scheduled-tasks]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/schedulingtasks/ScheduledTasks.kt[tags=scheduled-tasks]
+----
 
 The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation^] defines when a particular method runs.
 
@@ -99,26 +94,18 @@ NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/jav
 
 == Testing with the awaitility Dependency
 
-To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`:
+To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing `ScheduledTasksTest`:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@SpringBootTest
-public class ScheduledTasksTest {
-
-	@SpyBean
-	ScheduledTasks tasks;
-
-	@Test
-	public void reportCurrentTime() {
-		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
-			verify(tasks, atLeast(2)).reportCurrentTime();
-		});
-	}
-}
+include::src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java[tags=scheduled-tasks-test]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/schedulingtasks/ScheduledTasksTest.kt[tags=scheduled-tasks-test]
+----
 
 This test automatically runs when you run the `./gradlew clean build` task.
 
@@ -154,25 +141,25 @@ This test automatically runs when you run the `./gradlew clean build` task.
 
 == Building the Application
 
-In this section, we will describe four different ways to run this guide:
+This section describes different ways to run this guide:
 
 1. https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems[Building and executing a JAR file]
-2. https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Building and executing a Docker container, using Cloud Native Buildpacks^]
+2. https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Building and executing a Docker container using Cloud Native Buildpacks^]
 3. https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools[Building and executing a native image^]
-4. https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Building and executing a native image container, using Cloud Native Buildpacks^]
+4. https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Building and executing a native image container using Cloud Native Buildpacks^]
 
 Regardless of how you choose to execute the application, the output should be the same.
 
 To run the application, you can package the application as an executable jar.
-The command `{jar_build_command}` will compile the application to an executable jar.
-You can then run the jar with the command `{jar_run_command}`
+The command `{jar_build_command}` compiles the application to an executable jar.
+You can then run the jar with the command `{jar_run_command}`.
 
 Alternatively, if you have a Docker environment available, you could create a Docker image directly from your Maven or Gradle plugin, using buildpacks.
 With https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html#container-images.buildpacks[Cloud Native Buildpacks^], you can create Docker compatible images that you can run anywhere.
 Spring Boot includes buildpack support directly for both Maven and Gradle.
 This means you can type a single command and quickly get a sensible image into a locally running Docker daemon.
 To create a Docker image using Cloud Native Buildpacks, run the command `{image_build_command}`.
-With a Docker environment enabled, you can execute the application with the command `{image_run_command}`
+With a Docker environment enabled, you can execute the application with the command `{image_run_command}`.
 
 
 === Native Image Support
@@ -181,15 +168,15 @@ Spring Boot also supports https://docs.spring.io/spring-boot/docs/current/refere
 To create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.native-build-tools.gradle[native image with Gradle^] using Native Build Tools, first make sure that your Gradle build contains a `plugins` block that includes `org.graalvm.buildtools.native`.
 ----
 plugins {
-	id 'org.graalvm.buildtools.native' version '0.9.28'
+	id 'org.graalvm.buildtools.native' version '1.1.14'
 ...
 ----
 
 
-You can run the command `{native_build_command}` to generate a native image. When the build completes, you will be able to run the code with a near instantaneous start up time by executing the command `{native_run_command}`.
+You can run the command `{native_build_command}` to generate a native image. When the build completes, you will be able to run the code with a near-instantaneous startup time by executing the command `{native_run_command}`.
 
 
-You can also create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Native Image using Buildpacks^]. You can generate a native image by running the command `{native_image_build_command}`. Once the build completes, you can start your application with the command `{native_image_run_command}`
+You can also create a https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html#native-image.developing-your-first-application.buildpacks[Native Image using Buildpacks^]. You can generate a native image by running the command `{native_image_build_command}`. Once the build completes, you can start your application with the command `{native_image_run_command}`.
 
 
 
@@ -207,4 +194,4 @@ The following guides may also be helpful:
 
 Want to write a new guide or contribute to an existing one? Check out our https://github.com/spring-guides/getting-started-guides/wiki[contribution guidelines].
 
-IMPORTANT: All guides are released with an ASLv2 license for the code, and an http://creativecommons.org/licenses/by-nd/3.0/[Attribution, NoDerivatives creative commons license] for the writing.
+IMPORTANT: All guides are released with an ASLv2 license for the code, and an https://creativecommons.org/licenses/by-nd/3.0/[Attribution, NoDerivatives creative commons license] for the writing.

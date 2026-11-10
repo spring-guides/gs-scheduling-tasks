@@ -38,13 +38,13 @@ include::guide_intro.adoc[]
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&name=scheduling-tasks&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.scheduling-tasks[pre-initialized project^] and click Generate to download a ZIP file. This project is configured to fit the examples in this guide.
+You can use this https://start.spring.io/#!type=gradle-project&jvmVersion=17&packaging=jar&groupId=com.example&artifactId=scheduling-tasks&packageName=com.example.scheduling-tasks[pre-initialized project^] and click Generate to download a ZIP file. This project is configured to fit the examples in this guide.
 
 To manually initialize the project:
 
 . Navigate to https://start.spring.io[https://start.spring.io^].
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java and Gradle.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of an application that is configured with your choices.
 
@@ -55,16 +55,18 @@ endif::[]
 
 == Enable Scheduling
 
-Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by a Java main() method. The following snippet (from `src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java`) shows the application class:
+Although scheduled tasks can be embedded in web applications, the simpler approach (shown in this guide) creates a standalone application. To do so, package everything in a single, executable JAR file, driven by the main() method. The following snippet shows the `SchedulingTasksApplication` application class:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@SpringBootApplication
-@EnableScheduling
-public class SchedulingTasksApplication {
+include::src/main/java/com/example/schedulingtasks/SchedulingTasksApplication.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/schedulingtasks/SchedulingTasksApplication.kt[]
+----
 
 Spring Initializr adds the `@SpringBootApplication` annotation to our main class. `@SpringBootApplication` is a convenience annotation that adds all of the following:
 
@@ -78,25 +80,18 @@ Additionally, add the `@EnableScheduling` annotation. This annotation enables Sp
 
 == Create a Scheduled Task
 
-Create a new class `src/main/java/com/example/schedulingtasks/ScheduledTasks.java` called:
+Create a new class called `ScheduledTasks`:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@Component
-public class ScheduledTasks {
-
-	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
-
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-	@Scheduled(fixedRate = 5000)
-	public void reportCurrentTime() {
-		log.info("The time is now {}", dateFormat.format(new Date()));
-	}
-}
+include::src/main/java/com/example/schedulingtasks/ScheduledTasks.java[tags=scheduled-tasks]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/schedulingtasks/ScheduledTasks.kt[tags=scheduled-tasks]
+----
 
 The https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-scheduled[`Scheduled` annotation^] defines when a particular method runs.
 
@@ -105,7 +100,7 @@ invocations, measured from the start time of each invocation. Other options are 
 
 == Running the Application
 
-You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE, or by executing the following Gradle command in the project root directory:
+You should now be able to run the application by executing the main method in `SchedulingTasksApplication`. You can run the program from your IDE or execute the following Gradle command in the project root directory:
 
 ====
 ----
@@ -127,26 +122,18 @@ NOTE: This example uses https://docs.spring.io/spring-framework/docs/current/jav
 
 == Testing with the awaitility Dependency
 
-To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing test at `src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java`:
+To properly test your application, you can use the https://github.com/awaitility/awaitility[`awaitility` library^]. Since Spring Boot 3.2, this is a dependency that Boot manages. You can create a new test or view the existing `ScheduledTasksTest`:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@SpringBootTest
-public class ScheduledTasksTest {
-
-	@SpyBean
-	ScheduledTasks tasks;
-
-	@Test
-	public void reportCurrentTime() {
-		await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
-			verify(tasks, atLeast(2)).reportCurrentTime();
-		});
-	}
-}
+include::src/test/java/com/example/schedulingtasks/ScheduledTasksTest.java[tags=scheduled-tasks-test]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/schedulingtasks/ScheduledTasksTest.kt[tags=scheduled-tasks-test]
+----
 
 This test automatically runs when you run the `./gradlew clean build` task.
 
